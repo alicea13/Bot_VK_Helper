@@ -29,10 +29,10 @@ def main():
                 event.obj.message['text'].lower() == 'начать' \
                 and not id_d[event.obj.message['from_id']]['flag']:
 
-            id_d[event.obj.message['from_id']]['flag'] = True
+            id_d[event.obj.message['from_id']]['flag'] = True   # запуск бота
 
-            id_d[event.obj.message['from_id']]['help'][0] = False
-            id_d[event.obj.message['from_id']]['help'][1] = True
+            id_d[event.obj.message['from_id']]['help'][0] = False   # подсказка для запускающей бот фразы
+            id_d[event.obj.message['from_id']]['help'][1] = True   # подсказка на выбор навыка
 
             print(event)
             print('Новое сообщение:')
@@ -54,7 +54,17 @@ def main():
                                  addition.data_doc_addition.attachment_doc_add['hi']),
                              random_id=random.randint(0, 2 ** 64))
 
+        else:
+            if id_d[event.obj.message['from_id']]['help'][0] \
+                 and event.type == VkBotEventType.MESSAGE_NEW:   # запрос на ввод фразы, запускающей бот
+                text = "Для начала работы напишите 'Начать'"
 
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_start.json',
+                                               'r',
+                                               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
 
 
 if __name__ == '__main__':
