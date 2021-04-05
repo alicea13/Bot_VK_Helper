@@ -19,13 +19,14 @@ print('start')
 def main():
     global flag, flag_play, id_d
     for event in longpoll.listen():
+        print(id_d)
         vk = vk_session.get_api()
         if event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['from_id'] not in id_d.keys():
             id_d[event.obj.message['from_id']] = {'flag': False,
                                                   'help': [True, False]}
 
-        if event.type == VkBotEventType.MESSAGE_NEW and \
+        elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'начать' \
                 and not id_d[event.obj.message['from_id']]['flag']:
 
@@ -55,13 +56,30 @@ def main():
                              random_id=random.randint(0, 2 ** 64))
 
         else:
-            if id_d[event.obj.message['from_id']]['help'][0] \
-                 and event.type == VkBotEventType.MESSAGE_NEW:   # запрос на ввод фразы, запускающей бот
+            if event.type == VkBotEventType.MESSAGE_NEW and \
+                    id_d[event.obj.message['from_id']]['help'][0]:   # запрос на ввод фразы, запускающей бот
+
                 text = "Для начала работы напишите 'Начать'"
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
                                  keyboard=open('keyboard\keyboard_start.json',
+                                               'r',
+                                               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                    id_d[event.obj.message['from_id']]['help'][1]:   # запрос на выбор одного из доступных навыков
+
+                text = "Выберите один из навыков:\n" \
+                               "✅ Игры\n" \
+                               "✅ Погода\n" \
+                               "✅ Время\n" \
+                               "✅ Карты\n" \
+                               "✅ Удача\n"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_menu.json',
                                                'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))

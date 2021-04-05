@@ -25,7 +25,14 @@
           {
             "action": {
                 "type": "text",
-                "label": "Решение"
+                "label": "Карты"
+            },
+          "color": "positive"
+          },
+          {
+            "action": {
+                "type": "text",
+                "label": "Удача"
             },
           "color": "positive"
           }]
