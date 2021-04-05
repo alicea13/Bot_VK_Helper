@@ -1,0 +1,25 @@
+{
+  "one_time": true,
+  "buttons": [
+        [{
+            "action": {
+                "type": "text",
+                "label": "Угадай число"
+            },
+          "color": "positive"
+        },
+          {
+            "action": {
+                "type": "text",
+                "label": "Слова"
+            },
+          "color": "positive"
+          },{
+            "action": {
+                "type": "text",
+                "label": "Быки - коровы"
+            },
+          "color": "positive"
+          }]
+    ]
+}
