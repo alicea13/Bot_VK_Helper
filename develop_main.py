@@ -55,7 +55,6 @@ def main():
                                  addition.data_doc_addition.attachment_doc_add['hi']),
                              random_id=random.randint(0, 2 ** 64))
 
-
         elif event.type == VkBotEventType.MESSAGE_NEW and 'игр' in \
             event.obj.message['text'].lower() and \
                 id_d[event.obj.message['from_id']]['flag']:   # обработка запуска навыка "игры"
@@ -100,6 +99,19 @@ def main():
                                  keyboard=open('keyboard\keyboard_menu.json',
                                                'r',
                                                encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+
+            elif id_d[event.obj.message['from_id']]['help'][2] \
+                    and event.type == VkBotEventType.MESSAGE_NEW:   # запрос на выбор одной из доступных игр
+
+                text = "Выберите игру:\n" \
+                       "○ Камень-ножницы-бумага\n" \
+                       "○ Угадай число\n" \
+                       "○ Слова\n" \
+                       "○ быки - коровы\n"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
                                  random_id=random.randint(0, 2 ** 64))
 
 
