@@ -55,6 +55,24 @@ def main():
                                  addition.data_doc_addition.attachment_doc_add['hi']),
                              random_id=random.randint(0, 2 ** 64))
 
+
+        elif event.type == VkBotEventType.MESSAGE_NEW and 'игр' in \
+            event.obj.message['text'].lower() and \
+                id_d[event.obj.message['from_id']]['flag']:   # обработка запуска навыка "игры"
+
+            id_d[event.obj.message['from_id']]['flag_play'] = True   # флаг-запуск навыка "игры"
+
+            id_d[event.obj.message['from_id']]['help'][1] = False   # подсказка на выбор навыка
+            id_d[event.obj.message['from_id']]['help'][2] = True   # подсказка на выбор игры
+
+            vk.messages.send(user_id=event.obj.message['from_id'],
+                             message="Можем поиграть в:\n"
+                                     "○ Камень-ножницы-бумага\n"
+                                     "○ Угадай число\n"
+                                     "○ Слова\n"
+                                     "○ Быки - коровы\n",
+                             random_id=random.randint(0, 2 ** 64))
+
         else:
             if event.type == VkBotEventType.MESSAGE_NEW and \
                     id_d[event.obj.message['from_id']]['help'][0]:   # запрос на ввод фразы, запускающей бот
