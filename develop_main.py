@@ -24,7 +24,10 @@ def main():
         if event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['from_id'] not in id_d.keys():
             id_d[event.obj.message['from_id']] = {'flag': False,
-                                                  'help': [True, False]}
+                                                  'flag_play': False,
+                                                  'number_game': False,
+                                                  'help': [True, False, False,
+                                                           False]}
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'начать' \
@@ -72,6 +75,28 @@ def main():
                                      "○ Быки - коровы\n",
                              random_id=random.randint(0, 2 ** 64))
 
+        elif event.type == VkBotEventType.MESSAGE_NEW and 'угадай число' in  \
+                event.obj.message['text'].lower() and \
+                id_d[event.obj.message['from_id']]['flag_play']:
+
+            id_d[event.obj.message['from_id']]['number_game'] = True   # флаг-запуск игры "угадай число"
+
+            id_d[event.obj.message['from_id']]['help'][2] = False  # подсказка на выбор игры
+            id_d[event.obj.message['from_id']]['help'][3] = True  # подсказка на выбор игрока, делающего первый ход
+
+            text = "Название: Угадай число\n" \
+                   "Один из нас - Я или ВЫ - загадывает число от 1 до 999.\n" \
+                   "Другой начинает угадывать, называя числа, " \
+                   "получая в ответ фразы 'больше' или 'меньше'.\n" \
+                   "○ 'Меньше' - загаданное число меньше Вашего.\n" \
+                   "○ 'Больше' - загаданное число больше Вашего.\n" \
+                   "○ 'Стоп' - если хотите завершить игру\n" \
+                   "⚪ Кто загадывает число: Я или ВЫ?" \
+
+            vk.messages.send(user_id=event.obj.message['from_id'],
+                             message=text,
+                             random_id=random.randint(0, 2 ** 64))
+
         else:
             if event.type == VkBotEventType.MESSAGE_NEW and \
                     id_d[event.obj.message['from_id']]['help'][0]:   # запрос на ввод фразы, запускающей бот
@@ -101,8 +126,8 @@ def main():
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
-            elif id_d[event.obj.message['from_id']]['help'][2] \
-                    and event.type == VkBotEventType.MESSAGE_NEW:   # запрос на выбор одной из доступных игр
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                    id_d[event.obj.message['from_id']]['help'][2]:   # запрос на выбор одной из доступных игр
 
                 text = "Выберите игру:\n" \
                        "○ Камень-ножницы-бумага\n" \
