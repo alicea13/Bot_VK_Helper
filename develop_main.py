@@ -103,6 +103,9 @@ def main():
                              message=text,
                              keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                            encoding='UTF-8').read(),
+                             attachment=random.choice(
+                                 addition.data_doc_addition.attachment_doc_add[
+                                     'number']),
                              random_id=random.randint(0, 2 ** 64))
 
         else:
