@@ -3,6 +3,7 @@ from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
 
 import addition.data_doc_addition
+import NumberGame
 
 vk_session = vk_api.VkApi(
     token='ffcaa658692c13d6c1bf5fe7946572169e6c4fb1c76ca4e8aef0fb4ddf60ae95e97210da8d6b677df6fb6')
@@ -26,8 +27,9 @@ def main():
             id_d[event.obj.message['from_id']] = {'flag': False,
                                                   'flag_play': False,
                                                   'number_game': False,
+                                                  'numb_gm_polz': False,
                                                   'help': [True, False, False,
-                                                           False]}
+                                                           False, False]}
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'начать' \
@@ -108,6 +110,71 @@ def main():
                                      'number']),
                              random_id=random.randint(0, 2 ** 64))
 
+        elif event.type == VkBotEventType.MESSAGE_NEW and \
+                id_d[event.obj.message['from_id']]['number_game']:
+
+            if event.obj.message['text'].lower() == 'я':
+                id_d[event.obj.message['from_id']]['help'][3] = False  # подсказка на выбор игрока, делающего первый ход
+                id_d[event.obj.message['from_id']]['numb_gm_polz'] = True   # флаг-маркер выбронного режима игры "угадай число"
+
+                numb_gm_p_cl = NumberGame.NumberGamePolz(
+                    id_d[event.obj.message['from_id']]['number_game'],
+                    id_d[event.obj.message['from_id']]['numb_gm_polz'],
+                    True)
+
+                text = "Хорошо. Загадывайте число.\n" \
+                       "Загадали? ДА / НЕТ"
+
+                id_d[event.obj.message['from_id']]['help'][4] = True   # подсказка-опрос о том, загад ли игрок число или нет
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_y_n.json',
+                                               'r', encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+
+            if id_d[event.obj.message['from_id']]['numb_gm_polz']:
+
+                if id_d[event.obj.message['from_id']]['help'][4]:
+
+                    if event.obj.message['text'].lower() == 'нет':
+                        text = "Ладно, я могу подождать.\n" \
+                               "А теперь загадали? ДА / НЕТ"
+
+                        vk.messages.send(user_id=event.obj.message['from_id'],
+                                         message=text,
+                                         keyboard=open('keyboard\keyboard_y_n.json',
+                                                       'r', encoding='UTF-8').read(),
+                                         attachment=random.choice(
+                                             addition.data_doc_addition.attachment_doc_add[
+                                                 'time']),
+                                         random_id=random.randint(0, 2 ** 64))
+
+                    elif event.obj.message['text'].lower() == 'да':
+                        id_d[event.obj.message['from_id']]['help'][4] = False  # подсказка-опрос о том, загад ли игрок число или нет
+                        id_d[event.obj.message['from_id']]['help'][5] = True  # подсказка о вводе ответа "больше", "меньше" или "равно"
+
+                        text = "Хорошо. Начинаю угадывать\n"
+                        text_1, keyboard = numb_gm_p_cl.number_game_st()
+
+                        vk.messages.send(user_id=event.obj.message['from_id'],
+                                         message=text,
+                                         random_id=random.randint(0, 2 ** 64))
+
+                        vk.messages.send(user_id=event.obj.message['from_id'],
+                                         message=text_1,
+                                         keyboard=keyboard,
+                                         random_id=random.randint(0, 2 ** 64))
+
+                    else:
+                        text = "Вы загадали число? ДА / НЕТ"
+
+                        vk.messages.send(user_id=event.obj.message['from_id'],
+                                         message=text,
+                                         keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                             encoding='UTF-8').read(),
+                                         random_id=random.randint(0, 2 ** 64))
+
         else:
             if event.type == VkBotEventType.MESSAGE_NEW and \
                     id_d[event.obj.message['from_id']]['help'][0]:   # запрос на ввод фразы, запускающей бот
@@ -148,6 +215,30 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
+                                 random_id=random.randint(0, 2 ** 64))
+
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                    id_d[event.obj.message['from_id']]['help'][3]:
+
+                text = "Выберите, кто загадывает число: Я или ВЫ?\n" \
+                       "Напишите СТОП - если хотите завершить игру\n"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open(
+                                     'keyboard\keyboard_i_y_stop.json', 'r',
+                                     encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+
+            elif id_d[event.obj.message['from_id']]['help'][4] \
+                    and event.type == VkBotEventType.MESSAGE_NEW:
+
+                text = "Вы загадали число? ДА / НЕТ"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                               encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
 
