@@ -4,6 +4,13 @@
         [{
             "action": {
                 "type": "text",
+                "label": "Камень-ножницы-бумага"
+            },
+          "color": "positive"
+        },
+          {
+            "action": {
+                "type": "text",
                 "label": "Угадай число"
             },
           "color": "positive"

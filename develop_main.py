@@ -74,6 +74,8 @@ def main():
                                      "○ Угадай число\n"
                                      "○ Слова\n"
                                      "○ Быки - коровы\n",
+                             keyboard=open('keyboard\keyboard_games.json', 'r',
+                                           encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and 'угадай число' in  \
