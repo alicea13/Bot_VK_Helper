@@ -231,7 +231,7 @@ def main():
                                  random_id=random.randint(0, 2 ** 64))
 
             elif id_d[event.obj.message['from_id']]['help'][4] \
-                    and event.type == VkBotEventType.MESSAGE_NEW:
+                    and event.type == VkBotEventType.MESSAGE_NEW:   # опрос, загадал ли игрок число(игра "угадай число")
 
                 text = "Вы загадали число? ДА / НЕТ"
 
