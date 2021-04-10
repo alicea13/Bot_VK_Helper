@@ -86,7 +86,7 @@ def main():
         elif event.type == VkBotEventType.MESSAGE_NEW and 'угадай число' in  \
                 event.obj.message['text'].lower() and \
                 id_d[event.obj.message['from_id']]['flag_play']:
-
+            print(id_d[event.obj.message['from_id']])
             id_d[event.obj.message['from_id']]['number_game'] = True   # флаг-запуск игры "угадай число"
 
             id_d[event.obj.message['from_id']]['help'][2] = False  # подсказка на выбор игры
@@ -187,6 +187,28 @@ def main():
                                  keyboard=open('keyboard\keyboard_start_notstart.json',
                                                'r', encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
+
+        elif event.type == VkBotEventType.MESSAGE_NEW and \
+                event.obj.message['text'].lower() == 'перезапустить':
+            if id_d[event.obj.message['from_id']]['numb_gm_polz']:
+                print(id_d[event.obj.message['from_id']])
+                id_d[event.obj.message['from_id']]['help'][8] = False   # подсказка о вводе ответа "перезапустить"\"не перезапускать"
+                id_d[event.obj.message['from_id']]['numb_gm_polz'] = False   # флаг-маркер выбронного режима игры "угадай число"
+
+                id_d[event.obj.message['from_id']]['number_game'] = True  # флаг-запуск игры "угадай число"
+
+                id_d[event.obj.message['from_id']]['help'][2] = False  # подсказка на выбор игры
+                id_d[event.obj.message['from_id']]['help'][3] = True  # подсказка на выбор игрока, делающего первый ход
+
+                text = "⚪ Кто загадывает число: Я или ВЫ?"
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                             encoding='UTF-8').read(),
+                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                                                 'number']),
+                                 random_id=random.randint(0, 2 ** 64))
+
 
         else:
             if event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower():
