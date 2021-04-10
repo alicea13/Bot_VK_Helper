@@ -342,6 +342,18 @@ def main():
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
+
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                    id_d[event.obj.message['from_id']]['help'][6]:   # подсказка на ввод максимально возможного загаданного ботом числа
+
+
+                text = "Введите максимальное число, которое мне можно загадать\n" \
+                       "Минимальное число - 0"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 random_id=random.randint(0, 2 ** 64))
+
             elif event.type == VkBotEventType.MESSAGE_NEW and \
                     id_d[event.obj.message['from_id']]['help'][8]:   # подсказка о вводе ответа "перезапустить"\"не перезапускать"
                 text = "Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ"
