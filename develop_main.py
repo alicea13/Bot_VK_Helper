@@ -29,7 +29,8 @@ def main():
                                                   'number_game': False,
                                                   'numb_gm_polz': False,
                                                   'help': [True, False, False,
-                                                           False, False, False]}
+                                                           False, False, False,
+                                                           None, None, False]}
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'начать' \
@@ -59,7 +60,6 @@ def main():
                              attachment=random.choice(
                                  addition.data_doc_addition.attachment_doc_add['hi']),
                              random_id=random.randint(0, 2 ** 64))
-
 
         elif event.type == VkBotEventType.MESSAGE_NEW and 'игр' in \
             event.obj.message['text'].lower() and \
@@ -253,6 +253,17 @@ def main():
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
                                  keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+
+            elif id_d[event.obj.message['from_id']]['help'][5] \
+                    and event.type == VkBotEventType.MESSAGE_NEW:   # подсказка о вводе ответа "больше", "меньше" или "равно"
+                text = "Введите БОЛЬШЕ, МЕНЬШЕ или РАВНО"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_b_m_r.json',
+                                               'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
