@@ -29,7 +29,7 @@ def main():
                                                   'number_game': False,
                                                   'numb_gm_polz': False,
                                                   'help': [True, False, False,
-                                                           False, False]}
+                                                           False, False, False]}
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'начать' \
@@ -111,71 +111,86 @@ def main():
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
-                id_d[event.obj.message['from_id']]['number_game']:
+                id_d[event.obj.message['from_id']]['number_game'] and \
+                event.obj.message['text'].lower() == 'я':
 
-            if event.obj.message['text'].lower() == 'я':
-                id_d[event.obj.message['from_id']]['help'][3] = False  # подсказка на выбор игрока, делающего первый ход
-                id_d[event.obj.message['from_id']]['numb_gm_polz'] = True   # флаг-маркер выбронного режима игры "угадай число"
+            id_d[event.obj.message['from_id']]['help'][3] = False  # подсказка на выбор игрока, делающего первый ход
+            id_d[event.obj.message['from_id']]['numb_gm_polz'] = True   # флаг-маркер выбронного режима игры "угадай число"
 
-                numb_gm_p_cl = NumberGame.NumberGamePolz(
-                    id_d[event.obj.message['from_id']]['number_game'],
-                    id_d[event.obj.message['from_id']]['numb_gm_polz'],
-                    True)
+            numb_gm_p_cl = NumberGame.NumberGamePolz(
+                id_d[event.obj.message['from_id']]['number_game'],
+                id_d[event.obj.message['from_id']]['numb_gm_polz'], True)
 
-                text = "Хорошо. Загадывайте число.\n" \
-                       "Загадали? ДА / НЕТ"
+            text = "Хорошо. Загадывайте число.\n" \
+                   "Загадали? ДА / НЕТ"
 
-                id_d[event.obj.message['from_id']]['help'][4] = True   # подсказка-опрос о том, загад ли игрок число или нет
+            id_d[event.obj.message['from_id']]['help'][4] = True   # подсказка-опрос о том, загадал ли игрок число или нет
+
+            vk.messages.send(user_id=event.obj.message['from_id'],
+                             message=text,
+                             keyboard=open('keyboard\keyboard_y_n.json', 'r', encoding='UTF-8').read(),
+                             random_id=random.randint(0, 2 ** 64))
+
+        elif event.type == VkBotEventType.MESSAGE_NEW and \
+                id_d[event.obj.message['from_id']]['numb_gm_polz'] and \
+                event.obj.message['text'].lower() in ['нет', 'да']:
+                # id_d[event.obj.message['from_id']]['number_game'] and \
+
+            if event.obj.message['text'].lower() == 'нет':
+                text = "Ладно, я могу подождать.\n" \
+                       "А теперь загадали? ДА / НЕТ"
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_y_n.json',
+                                 keyboard=open('keyboard\keyboard_y_n.json', 'r', encoding='UTF-8').read(),
+                                 attachment=random.choice(
+                                     addition.data_doc_addition.attachment_doc_add['time']),
+                                 random_id=random.randint(0, 2 ** 64))
+
+            else:
+                id_d[event.obj.message['from_id']]['help'][4] = False  # подсказка-опрос о том, загадал ли игрок число или нет
+                id_d[event.obj.message['from_id']]['help'][5] = True  # подсказка о вводе ответа "больше", "меньше" или "равно"
+
+                text = "Хорошо. Начинаю угадывать\n"
+                text_1, keyboard = numb_gm_p_cl.number_game_st()
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 random_id=random.randint(0, 2 ** 64))
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text_1,
+                                 keyboard=keyboard,
+                                 random_id=random.randint(0, 2 ** 64))
+
+        elif event.type == VkBotEventType.MESSAGE_NEW and event.obj.message[
+            'text'].lower() in ['больше', 'меньше', 'равно'] and \
+                id_d[event.obj.message['from_id']]['numb_gm_polz']:
+                # id_d[event.obj.message['from_id']]['flag'] \
+                # id_d[event.obj.message['from_id']]['number_game'] and \
+            if numb_gm_p_cl.minim < numb_gm_p_cl.maxim - 1:
+
+                id_d[event.obj.message['from_id']]['help'][5], \
+                id_d[event.obj.message['from_id']]['help'][8], keyboard, \
+                text = numb_gm_p_cl.numb_game_plz_func(event.obj.message['text'].lower())
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=keyboard,
+                                 random_id=random.randint(0, 2 ** 64))
+            else:
+                text = "Должно быть, Вы ошиблись.\n" \
+                       "Такого числа нет в диапазоне от 1 до 1000"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_start_notstart.json',
                                                'r', encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
-            if id_d[event.obj.message['from_id']]['numb_gm_polz']:
-
-                if id_d[event.obj.message['from_id']]['help'][4]:
-
-                    if event.obj.message['text'].lower() == 'нет':
-                        text = "Ладно, я могу подождать.\n" \
-                               "А теперь загадали? ДА / НЕТ"
-
-                        vk.messages.send(user_id=event.obj.message['from_id'],
-                                         message=text,
-                                         keyboard=open('keyboard\keyboard_y_n.json',
-                                                       'r', encoding='UTF-8').read(),
-                                         attachment=random.choice(
-                                             addition.data_doc_addition.attachment_doc_add[
-                                                 'time']),
-                                         random_id=random.randint(0, 2 ** 64))
-
-                    elif event.obj.message['text'].lower() == 'да':
-                        id_d[event.obj.message['from_id']]['help'][4] = False  # подсказка-опрос о том, загад ли игрок число или нет
-                        id_d[event.obj.message['from_id']]['help'][5] = True  # подсказка о вводе ответа "больше", "меньше" или "равно"
-
-                        text = "Хорошо. Начинаю угадывать\n"
-                        text_1, keyboard = numb_gm_p_cl.number_game_st()
-
-                        vk.messages.send(user_id=event.obj.message['from_id'],
-                                         message=text,
-                                         random_id=random.randint(0, 2 ** 64))
-
-                        vk.messages.send(user_id=event.obj.message['from_id'],
-                                         message=text_1,
-                                         keyboard=keyboard,
-                                         random_id=random.randint(0, 2 ** 64))
-
-                    else:
-                        text = "Вы загадали число? ДА / НЕТ"
-
-                        vk.messages.send(user_id=event.obj.message['from_id'],
-                                         message=text,
-                                         keyboard=open('keyboard\keyboard_y_n.json', 'r',
-                                             encoding='UTF-8').read(),
-                                         random_id=random.randint(0, 2 ** 64))
-
         else:
+            if event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower():
+                print(event.obj.message['text'].lower())
             if event.type == VkBotEventType.MESSAGE_NEW and \
                     id_d[event.obj.message['from_id']]['help'][0]:   # запрос на ввод фразы, запускающей бот
 
@@ -230,8 +245,8 @@ def main():
                                      encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
-            elif id_d[event.obj.message['from_id']]['help'][4] \
-                    and event.type == VkBotEventType.MESSAGE_NEW:   # опрос, загадал ли игрок число(игра "угадай число")
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                    id_d[event.obj.message['from_id']]['help'][4]:   # опрос, загадал ли игрок число(игра "угадай число")
 
                 text = "Вы загадали число? ДА / НЕТ"
 
