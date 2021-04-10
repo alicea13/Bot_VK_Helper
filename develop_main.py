@@ -270,6 +270,17 @@ def main():
                                      #     encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
+                elif id_d[event.obj.message['from_id']]['help'][7]:   # подсказка о вводе угадываемого пользователем числа
+
+                    text = "Введите число, которое думаете, я загадал\n"
+
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     # keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                     #     encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
+
+
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'перезапустить':
 
