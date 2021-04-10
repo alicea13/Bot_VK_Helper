@@ -218,7 +218,7 @@ def main():
                                  random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][3]:
+                    id_d[event.obj.message['from_id']]['help'][3]:   # подсказка о выборе игрока, делающего первый ход(игра "угадай число")
 
                 text = "Выберите, кто загадывает число: Я или ВЫ?\n" \
                        "Напишите СТОП - если хотите завершить игру\n"
