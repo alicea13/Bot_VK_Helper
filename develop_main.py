@@ -349,6 +349,29 @@ def main():
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
+            if id_d[event.obj.message['from_id']]['numb_gm_ii']:
+
+                id_d[event.obj.message['from_id']]['help'][8] = False  # подсказка о вводе ответа "перезапустить"\"не перезапускать"
+                id_d[event.obj.message['from_id']]['help'][1] = True  # подсказка на выбор навыка
+
+                id_d[event.obj.message['from_id']]['number_game'] = False  # флаг-запуск игры "угадай число"
+                id_d[event.obj.message['from_id']]['numb_gm_ii'] = False  # флаг-маркер выбронного режима игры "угадай число"
+
+                text = "Выберите один из навыков:\n" \
+                       "✅ Игры\n" \
+                       "✅ Погода\n" \
+                       "✅ Время\n" \
+                       "✅ Карты\n" \
+                       "✅ Удача\n"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_menu.json',
+                                               'r',
+                                               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+
+
         else:
             if event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower():
                 print(event.obj.message['text'].lower())
@@ -438,7 +461,6 @@ def main():
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
                                  random_id=random.randint(0, 2 ** 64))
-
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
                     id_d[event.obj.message['from_id']]['help'][7]:   # подсказка о вводе угадываемого пользователем числа
