@@ -28,6 +28,7 @@ def main():
                                                   'flag_play': False,
                                                   'number_game': False,
                                                   'numb_gm_polz': False,
+                                                  # 'numb_gm_p_cl': None,
                                                   'help': [True, False, False,
                                                            False, False, False,
                                                            None, None, False]}
@@ -190,8 +191,9 @@ def main():
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'перезапустить':
+
             if id_d[event.obj.message['from_id']]['numb_gm_polz']:
-                print(id_d[event.obj.message['from_id']])
+
                 id_d[event.obj.message['from_id']]['help'][8] = False   # подсказка о вводе ответа "перезапустить"\"не перезапускать"
                 id_d[event.obj.message['from_id']]['numb_gm_polz'] = False   # флаг-маркер выбронного режима игры "угадай число"
 
@@ -209,6 +211,29 @@ def main():
                                                  'number']),
                                  random_id=random.randint(0, 2 ** 64))
 
+        elif event.type == VkBotEventType.MESSAGE_NEW and \
+                event.obj.message['text'].lower() == 'не перезапускать':
+
+            if id_d[event.obj.message['from_id']]['numb_gm_polz']:
+
+                id_d[event.obj.message['from_id']]['help'][8] = False  # подсказка о вводе ответа "перезапустить"\"не перезапускать"
+                id_d[event.obj.message['from_id']]['help'][1] = True  # подсказка на выбор навыка
+
+                id_d[event.obj.message['from_id']]['number_game'] = False  # флаг-запуск игры "угадай число"
+                id_d[event.obj.message['from_id']]['numb_gm_polz'] = False  # флаг-маркер выбронного режима игры "угадай число"
+
+                text = "Выберите один из навыков:\n" \
+                       "✅ Игры\n" \
+                       "✅ Погода\n" \
+                       "✅ Время\n" \
+                       "✅ Карты\n" \
+                       "✅ Удача\n"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_menu.json', 'r',
+                                               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
 
         else:
             if event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower():
