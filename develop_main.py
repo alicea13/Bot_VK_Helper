@@ -213,52 +213,54 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             # keyboard=open('keyboard\keyboard_stop.json',
-                             #               'r', encoding='UTF-8').read(),
+                             keyboard=open('keyboard\keyboard_stop.json',
+                                           'r', encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
-                id_d[event.obj.message['from_id']]['numb_gm_ii']:
+                id_d[event.obj.message['from_id']]['numb_gm_ii'] and \
+                event.obj.message['text'].isdigit():
                 # and id_d[event.obj.message['from_id']]['number_game'] and \
                 # id_d[event.obj.message['from_id']]['flag'] \
-            if event.obj.message['text'].isdigit() or event.obj.message['text'].isdigit():
+            # if event.obj.message['text'].isdigit() or event.obj.message['text'].isdigit():
 
-                id_d[event.obj.message['from_id']]['help'][6] = False   # подсказка на ввод максимально возможного загаданного ботом числа
+            id_d[event.obj.message['from_id']]['help'][6] = False   # подсказка на ввод максимально возможного загаданного ботом числа
 
-                if not id_d[event.obj.message['from_id']]['find_highest']:
+            if not id_d[event.obj.message['from_id']]['find_highest']:
 
-                    id_d[event.obj.message['from_id']]['number_game'], \
-                    id_d[event.obj.message['from_id']]['numb_gm_ii'], \
-                    id_d[event.obj.message['from_id']]['find_highest'], \
-                    id_d[event.obj.message['from_id']]['help'][7], text = \
-                        numb_gm_ii_cl.highest(event.obj.message['text'].lower())
+                id_d[event.obj.message['from_id']]['number_game'], \
+                id_d[event.obj.message['from_id']]['numb_gm_ii'], \
+                id_d[event.obj.message['from_id']]['find_highest'], \
+                id_d[event.obj.message['from_id']]['help'][7], text = \
+                    numb_gm_ii_cl.highest(event.obj.message['text'].lower())
 
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 # keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                 #               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+
+            else:
+                text, id_d[event.obj.message['from_id']]['help'][7], \
+                id_d[event.obj.message['from_id']]['help'][8], keyboard = \
+                    numb_gm_ii_cl.numb_game_ii_func(event.obj.message['text'].lower())
+
+                if keyboard:
+                    # id_d[event.obj.message['from_id']]['number_game'] = False
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     # keyboard=open('keyboard\keyboard_stop.json', 'r',
-                                     #               encoding='UTF-8').read(),
+                                     keyboard=open('keyboard\keyboard_start_notstart.json', 'r',
+                                                   encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
                 else:
-                    text, id_d[event.obj.message['from_id']]['help'][7], \
-                    id_d[event.obj.message['from_id']]['help'][8], keyboard = \
-                        numb_gm_ii_cl.numb_game_ii_func(event.obj.message['text'].lower())
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     # keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                     #     encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
 
-                    if keyboard:
-                        vk.messages.send(user_id=event.obj.message['from_id'],
-                                         message=text,
-                                         keyboard=open('keyboard\keyboard_start_notstart.json', 'r',
-                                             encoding='UTF-8').read(),
-                                         random_id=random.randint(0, 2 ** 64))
-
-                    else:
-                        vk.messages.send(user_id=event.obj.message['from_id'],
-                                         message=text,
-                                         # keyboard=open('keyboard\keyboard_stop.json', 'r',
-                                         #     encoding='UTF-8').read(),
-                                         random_id=random.randint(0, 2 ** 64))
-
-            else:
+            '''else:
                 if id_d[event.obj.message['from_id']]['help'][6]:
 
                     text = "Введите максимальное число, которое мне можно загадать\n" \
@@ -266,8 +268,8 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     # keyboard=open('keyboard\keyboard_stop.json', 'r',
-                                     #     encoding='UTF-8').read(),
+                                     keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                         encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
                 elif id_d[event.obj.message['from_id']]['help'][7]:   # подсказка о вводе угадываемого пользователем числа
@@ -278,8 +280,7 @@ def main():
                                      message=text,
                                      # keyboard=open('keyboard\keyboard_stop.json', 'r',
                                      #     encoding='UTF-8').read(),
-                                     random_id=random.randint(0, 2 ** 64))
-
+                                     random_id=random.randint(0, 2 ** 64))'''
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'перезапустить':
@@ -301,6 +302,27 @@ def main():
                                              encoding='UTF-8').read(),
                                  attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
                                                  'number']),
+                                 random_id=random.randint(0, 2 ** 64))
+
+            if id_d[event.obj.message['from_id']]['numb_gm_ii']:
+
+                id_d[event.obj.message['from_id']]['help'][8] = False  # подсказка о вводе ответа "перезапустить"\"не перезапускать"
+                id_d[event.obj.message['from_id']]['numb_gm_ii'] = False  # флаг-маркер выбронного режима игры "угадай число"
+                id_d[event.obj.message['from_id']]['find_highest'] = False  # флаг-маркер о вводе максимально возможного загаданного числа для
+
+                id_d[event.obj.message['from_id']]['number_game'] = True  # флаг-запуск игры "угадай число"
+
+                id_d[event.obj.message['from_id']]['help'][2] = False  # подсказка на выбор игры
+                id_d[event.obj.message['from_id']]['help'][3] = True  # подсказка на выбор игрока, делающего первый ход
+
+                text = "⚪ Кто загадывает число: Я или ВЫ?"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                               encoding='UTF-8').read(),
+                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                                                              'number']),
                                  random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
