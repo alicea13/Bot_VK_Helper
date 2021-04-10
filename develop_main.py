@@ -29,9 +29,12 @@ def main():
                                                   'number_game': False,
                                                   'numb_gm_polz': False,
                                                   # 'numb_gm_p_cl': None,
+                                                  'numb_gm_ii': False,
+                                                  'find_highest': False,
+                                                  # 'numb_gm_ii_cl': None,
                                                   'help': [True, False, False,
                                                            False, False, False,
-                                                           None, None, False]}
+                                                           False, None, False]}
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'начать' \
@@ -188,6 +191,31 @@ def main():
                                  keyboard=open('keyboard\keyboard_start_notstart.json',
                                                'r', encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
+
+        elif event.type == VkBotEventType.MESSAGE_NEW and \
+                id_d[event.obj.message['from_id']]['number_game'] and \
+                event.obj.message['text'].lower() == 'вы':
+
+            id_d[event.obj.message['from_id']]['help'][3] = False  # подсказка на выбор игрока, делающего первый ход
+            id_d[event.obj.message['from_id']]['help'][6] = False  # подсказка на ввод максимально возможного загаданного ботом числа
+
+            id_d[event.obj.message['from_id']]['numb_gm_ii'] = True  # флаг-маркер выбронного режима игры "угадай число"
+            id_d[event.obj.message['from_id']]['find_highest'] = False  # флаг-маркер о вводе максимально возможного загаданного числа для бота
+
+            numb_gm_ii_cl = NumberGame.NumberGameII(
+                id_d[event.obj.message['from_id']]['number_game'],
+                id_d[event.obj.message['from_id']]['numb_gm_ii'],
+                id_d[event.obj.message['from_id']]['find_highest'],
+                False)
+
+            text = "Введите максимальное число, которое мне можно загадать\n" \
+                   "Минимальное число - 0"
+
+            vk.messages.send(user_id=event.obj.message['from_id'],
+                             message=text,
+                             # keyboard=open('keyboard\keyboard_stop.json',
+                             #               'r', encoding='UTF-8').read(),
+                             random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'перезапустить':
