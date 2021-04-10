@@ -256,8 +256,8 @@ def main():
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
-            elif id_d[event.obj.message['from_id']]['help'][5] \
-                    and event.type == VkBotEventType.MESSAGE_NEW:   # подсказка о вводе ответа "больше", "меньше" или "равно"
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                    id_d[event.obj.message['from_id']]['help'][5]:   # подсказка о вводе ответа "больше", "меньше" или "равно"
                 text = "Введите БОЛЬШЕ, МЕНЬШЕ или РАВНО"
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
@@ -265,6 +265,18 @@ def main():
                                  keyboard=open('keyboard\keyboard_b_m_r.json',
                                                'r',
                                                encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                    id_d[event.obj.message['from_id']]['help'][8]:   # подсказка о вводе ответа "перезапустить"\"не перезапускать"
+                text = "Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open(
+                                     'keyboard\keyboard_start_notstart.json',
+                                     'r',
+                                     encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
 
