@@ -371,6 +371,27 @@ def main():
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
+            if id_d[event.obj.message['from_id']]['numb_gm_ii']:
+
+                id_d[event.obj.message['from_id']]['help'][3] = False  # подсказка на выбор игрока, делающего первый ход
+                id_d[event.obj.message['from_id']]['help'][6] = False  # подсказка на ввод максимально возможного загаданного ботом числа
+                id_d[event.obj.message['from_id']]['help'][7] = False  # подсказка о вводе угадываемого пользователем числа
+
+                id_d[event.obj.message['from_id']]['help'][1] = True  # подсказка на выбор навыка
+
+                text = "Выберите один из навыков:\n" \
+                       "✅ Игры\n" \
+                       "✅ Погода\n" \
+                       "✅ Время\n" \
+                       "✅ Карты\n" \
+                       "✅ Удача\n"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_menu.json', 'r',
+                                               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+
         else:
             if event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower():
                 print(event.obj.message['text'].lower())
@@ -413,6 +434,8 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
+                                 keyboard=open('keyboard\keyboard_games.json', 'r',
+                                               encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
@@ -423,8 +446,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open(
-                                     'keyboard\keyboard_i_y_stop.json', 'r',
+                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                      encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -445,8 +467,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_b_m_r.json',
-                                               'r',
+                                 keyboard=open('keyboard\keyboard_b_m_r.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -458,6 +479,8 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
+                                 keyboard=open('keyboard\keyboard_stop.json','r',
+                                               encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
@@ -467,6 +490,8 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
+                                 keyboard=open('keyboard\keyboard_stop.json','r',
+                                               encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
@@ -475,9 +500,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open(
-                                     'keyboard\keyboard_start_notstart.json',
-                                     'r',
+                                 keyboard=open('keyboard\keyboard_start_notstart.json', 'r',
                                      encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
