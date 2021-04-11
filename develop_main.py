@@ -221,8 +221,7 @@ def main():
                 id_d[event.obj.message['from_id']]['numb_gm_ii'] and \
                 event.obj.message['text'].isdigit():
                 # and id_d[event.obj.message['from_id']]['number_game'] and \
-                # id_d[event.obj.message['from_id']]['flag'] \
-            # if event.obj.message['text'].isdigit() or event.obj.message['text'].isdigit():
+                # id_d[event.obj.message['from_id']]['flag']
 
             id_d[event.obj.message['from_id']]['help'][6] = False   # подсказка на ввод максимально возможного загаданного ботом числа
 
@@ -236,8 +235,8 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 # keyboard=open('keyboard\keyboard_stop.json', 'r',
-                                 #               encoding='UTF-8').read(),
+                                 keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                               encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
             else:
@@ -246,7 +245,6 @@ def main():
                     numb_gm_ii_cl.numb_game_ii_func(event.obj.message['text'].lower())
 
                 if keyboard:
-                    # id_d[event.obj.message['from_id']]['number_game'] = False
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
                                      keyboard=open('keyboard\keyboard_start_notstart.json', 'r',
@@ -256,31 +254,9 @@ def main():
                 else:
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     # keyboard=open('keyboard\keyboard_stop.json', 'r',
-                                     #     encoding='UTF-8').read(),
-                                     random_id=random.randint(0, 2 ** 64))
-
-            '''else:
-                if id_d[event.obj.message['from_id']]['help'][6]:
-
-                    text = "Введите максимальное число, которое мне можно загадать\n" \
-                           "Минимальное число - 0"
-
-                    vk.messages.send(user_id=event.obj.message['from_id'],
-                                     message=text,
                                      keyboard=open('keyboard\keyboard_stop.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
-
-                elif id_d[event.obj.message['from_id']]['help'][7]:   # подсказка о вводе угадываемого пользователем числа
-
-                    text = "Введите число, которое думаете, я загадал\n"
-
-                    vk.messages.send(user_id=event.obj.message['from_id'],
-                                     message=text,
-                                     # keyboard=open('keyboard\keyboard_stop.json', 'r',
-                                     #     encoding='UTF-8').read(),
-                                     random_id=random.randint(0, 2 ** 64))'''
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'перезапустить':
@@ -371,6 +347,29 @@ def main():
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
+        elif event.type == VkBotEventType.MESSAGE_NEW and \
+                event.obj.message['text'].lower() == 'стоп':
+
+            if id_d[event.obj.message['from_id']]['numb_gm_polz']:
+
+                id_d[event.obj.message['from_id']]['help'][3] = False  # подсказка на выбор игрока, делающего первый ход
+                id_d[event.obj.message['from_id']]['help'][4] = False   # подсказка-опрос о том, загадал ли игрок число или нет
+                id_d[event.obj.message['from_id']]['help'][5] = False  # подсказка о вводе ответа "больше", "меньше" или "равно"
+
+                id_d[event.obj.message['from_id']]['help'][1] = True   # подсказка на выбор навыка
+
+                text = "Выберите один из навыков:\n" \
+                       "✅ Игры\n" \
+                       "✅ Погода\n" \
+                       "✅ Время\n" \
+                       "✅ Карты\n" \
+                       "✅ Удача\n"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_menu.json', 'r',
+                                               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
 
         else:
             if event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower():
@@ -453,7 +452,6 @@ def main():
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
                     id_d[event.obj.message['from_id']]['help'][6]:   # подсказка на ввод максимально возможного загаданного ботом числа
-
 
                 text = "Введите максимальное число, которое мне можно загадать\n" \
                        "Минимальное число - 0"
