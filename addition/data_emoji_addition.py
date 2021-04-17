@@ -25,8 +25,8 @@ condition_d = {"clear": ["ясно", '☀'],
                "overcast-and-snow": ["снегопад", '☃'],
                "snow": ["снег", '❄']}
 
-parts_d = {'morning': "○ Утро\n", 'day': "○ День\n",
-           'evening': "○ Вечер\n", 'night': "○ Ночь\n"}
+parts_d = {'morning': "утро", 'day': "день",
+           'evening': "вечер", 'night': "ночь"}
 
 wind_d = {'nw': ["северо-западное", "↖"],
           "n": ["северное", "⬆"],
