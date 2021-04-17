@@ -295,7 +295,8 @@ def main():
 
         elif event.type == VkBotEventType.MESSAGE_NEW and (id_d[event.obj.message['from_id']]['weather_fl'] or \
             id_d[event.obj.message['from_id']]['time_fl']) and id_d[event.obj.message['from_id']]['city_fl_pr'] and \
-                id_d[event.obj.message['from_id']]['flag']:
+                id_d[event.obj.message['from_id']]['flag'] and \
+                event.obj.message['text'].lower() != 'стоп':
 
                 city = event.obj.message['text'].lower()
 
@@ -597,209 +598,197 @@ def main():
                 id_d[event.obj.message['from_id']]['help'][4] = False   # подсказка-опрос о том, загадал ли игрок число или нет
                 id_d[event.obj.message['from_id']]['help'][5] = False  # подсказка о вводе ответа "больше", "меньше" или "равно"
 
-                id_d[event.obj.message['from_id']]['help'][1] = True   # подсказка на выбор навыка
-
-                text = "Выберите один из навыков:\n" \
-                       "✅ Игры\n" \
-                       "✅ Погода\n" \
-                       "✅ Время\n" \
-                       "✅ Карты\n" \
-                       "✅ Удача\n"
-
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_menu.json', 'r',
-                                               encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
-
             if id_d[event.obj.message['from_id']]['numb_gm_ii']:
 
                 id_d[event.obj.message['from_id']]['help'][3] = False  # подсказка на выбор игрока, делающего первый ход
                 id_d[event.obj.message['from_id']]['help'][6] = False  # подсказка на ввод максимально возможного загаданного ботом числа
                 id_d[event.obj.message['from_id']]['help'][7] = False  # подсказка о вводе угадываемого пользователем числа
 
-                id_d[event.obj.message['from_id']]['help'][1] = True  # подсказка на выбор навыка
-
-                text = "Выберите один из навыков:\n" \
-                       "✅ Игры\n" \
-                       "✅ Погода\n" \
-                       "✅ Время\n" \
-                       "✅ Карты\n" \
-                       "✅ Удача\n"
-
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_menu.json', 'r',
-                                               encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
-            if id_d[event.obj.message['from_id']]['weather_fl']:
+            if id_d[event.obj.message['from_id']]['weather_fl'] or \
+                    id_d[event.obj.message['from_id']]['time_fl']:
 
                 id_d[event.obj.message['from_id']]['weather_fl'] = False  # флаг-запуск навыка "погода\время" в режиме "погода"
                 id_d[event.obj.message['from_id']]['city_fl_pr'] = False  # флаг-маркер процесса определения искомого города
                 id_d[event.obj.message['from_id']]['lg_lt_city'] = []  # список из координат города, его названия
-                id_d[event.obj.message['from_id']]['certain_time'] = True  # режим "определенное время" в навыке "погода\время"
+                id_d[event.obj.message['from_id']]['certain_time'] = False  # режим "определенное время" в навыке "погода\время"
 
                 # список из названий временных промежутков для вывода данных в навыке "погода"(режим "определенное время")
                 id_d[event.obj.message['from_id']]['ct_parts']: []
                 id_d[event.obj.message['from_id']]['this_moment'] = False  # режим "данный момент" в навыке "погода\время"
                 id_d[event.obj.message['from_id']]['time_fl'] = False  # флаг-запуск навыка "погода\время" в режиме "время"
 
-    else:
+            id_d[event.obj.message['from_id']]['help'][1] = True  # подсказка на выбор навыка
+
+            text = "Выберите один из навыков:\n" \
+                   "✅ Игры\n" \
+                   "✅ Погода\n" \
+                   "✅ Время\n" \
+                   "✅ Карты\n" \
+                   "✅ Удача\n"
+
+            vk.messages.send(user_id=event.obj.message['from_id'],
+                             message=text,
+                             keyboard=open('keyboard\keyboard_menu.json', 'r',
+                                           encoding='UTF-8').read(),
+                             random_id=random.randint(0, 2 ** 64))
+            print(id_d[event.obj.message['from_id']])
+
+        else:
             if event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower():
-                print(event.obj.message['text'].lower())
+                    print(event.obj.message['text'].lower())
             if event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][0]:   # запрос на ввод фразы, запускающей бот
+                        id_d[event.obj.message['from_id']]['help'][0]:   # запрос на ввод фразы, запускающей бот
 
-                text = "Для начала работы напишите 'Начать'"
+                    text = "Для начала работы напишите 'Начать'"
 
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_start.json',
-                                               'r',
-                                               encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_start.json',
+                                                   'r',
+                                                   encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
             elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][1]:   # запрос на выбор одного из доступных навыков
+                        id_d[event.obj.message['from_id']]['help'][1]:   # запрос на выбор одного из доступных навыков
 
-                text = "Выберите один из навыков:\n" \
-                               "✅ Игры\n" \
-                               "✅ Погода\n" \
-                               "✅ Время\n" \
-                               "✅ Карты\n" \
-                               "✅ Удача\n"
+                    text = "Выберите один из навыков:\n" \
+                                   "✅ Игры\n" \
+                                   "✅ Погода\n" \
+                                   "✅ Время\n" \
+                                   "✅ Карты\n" \
+                                   "✅ Удача\n"
 
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_menu.json',
-                                               'r',
-                                               encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
-
-            elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][2]:   # запрос на выбор одной из доступных игр
-
-                text = "Выберите игру:\n" \
-                       "○ Камень-ножницы-бумага\n" \
-                       "○ Угадай число\n" \
-                       "○ Слова\n" \
-                       "○ быки - коровы\n"
-
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_games.json', 'r',
-                                               encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_menu.json',
+                                                   'r',
+                                                   encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][3]:   # подсказка о выборе игрока, делающего первый ход(игра "угадай число")
+                        id_d[event.obj.message['from_id']]['help'][2]:   # запрос на выбор одной из доступных игр
 
-                text = "Выберите, кто загадывает число: Я или ВЫ?\n" \
-                       "Напишите СТОП - если хотите завершить игру\n"
+                    text = "Выберите игру:\n" \
+                           "○ Камень-ножницы-бумага\n" \
+                           "○ Угадай число\n" \
+                           "○ Слова\n" \
+                           "○ быки - коровы\n"
 
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
-                                     encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
-
-            elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][4]:   # опрос, загадал ли игрок число(игра "угадай число")
-
-                text = "Вы загадали число? ДА / НЕТ"
-
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_y_n.json', 'r',
-                                               encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_games.json', 'r',
+                                                   encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][5]:   # подсказка о вводе ответа "больше", "меньше" или "равно"
-                text = "Введите БОЛЬШЕ, МЕНЬШЕ или РАВНО"
+                        id_d[event.obj.message['from_id']]['help'][3]:   # подсказка о выборе игрока, делающего первый ход(игра "угадай число")
 
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_b_m_r.json', 'r',
-                                               encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
+                    text = "Выберите, кто загадывает число: Я или ВЫ?\n" \
+                           "Напишите СТОП - если хотите завершить игру\n"
 
-            elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][6]:   # подсказка на ввод максимально возможного загаданного ботом числа
-
-                text = "Введите максимальное число, которое мне можно загадать\n" \
-                       "Минимальное число - 0"
-
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json','r',
-                                               encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                         encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][7]:   # подсказка о вводе угадываемого пользователем числа
+                        id_d[event.obj.message['from_id']]['help'][4]:   # опрос, загадал ли игрок число(игра "угадай число")
 
-                text = "Введите число, которое думаете, я загадал\n"
+                    text = "Вы загадали число? ДА / НЕТ"
 
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json','r',
-                                               encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
-
-            elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][8]:   # подсказка о вводе ответа "перезапустить"\"не перезапускать"
-
-                text = "Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ"
-
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_start_notstart.json', 'r',
-                                     encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                                   encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][9]:   # подсказка на ввод названия города
+                        id_d[event.obj.message['from_id']]['help'][5]:   # подсказка о вводе ответа "больше", "меньше" или "равно"
+                    text = "Введите БОЛЬШЕ, МЕНЬШЕ или РАВНО"
 
-                text = "Введите название города, данные для которого Вы хотели бы получить. Для выхода напишите СТОП"
-
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json', 'r',
-                                     encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
-
-            elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][10]:  # подсказка-уточнение названия искомого города
-
-                text = f'''Вы хотите получить данные о городе {id_d[event.obj.message['from_id']]['lg_lt_city'][2]}?\n Введите ДА или НЕТ'''
-
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_y_n.json', 'r',
-                                     encoding='UTF-8').read(),
-                                 random_id=random.randint(0, 2 ** 64))
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_b_m_r.json', 'r',
+                                                   encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][11]:  # подсказка о выборе пользователем временного промежутка
+                        id_d[event.obj.message['from_id']]['help'][6]:   # подсказка на ввод максимально возможного загаданного ботом числа
 
-                text = "Прогноз погоды на:\n" \
-                       "○ Данный момент\n"\
-                       "Определенное время"
+                    text = "Введите максимальное число, которое мне можно загадать\n" \
+                           "Минимальное число - 0"
 
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 random_id=random.randint(0, 2 ** 64))
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_stop.json','r',
+                                                   encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \
-                    id_d[event.obj.message['from_id']]['help'][12]:  # подсказка о выборе пользователем временного промежутка(режим "определенное время")
+                        id_d[event.obj.message['from_id']]['help'][7]:   # подсказка о вводе угадываемого пользователем числа
 
-                text = "Вы можете получить прогноз погоды на:\n" \
-                    f"○ {id_d[event.obj.message['from_id']]['ct_parts'][0]}\n" \
-                    f"○ {id_d[event.obj.message['from_id']]['ct_parts'][1]}\n"
+                    text = "Введите число, которое думаете, я загадал\n"
 
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 random_id=random.randint(0, 2 ** 64))
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_stop.json','r',
+                                                   encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
+
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                        id_d[event.obj.message['from_id']]['help'][8]:   # подсказка о вводе ответа "перезапустить"\"не перезапускать"
+
+                    text = "Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ"
+
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_start_notstart.json', 'r',
+                                         encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
+
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                        id_d[event.obj.message['from_id']]['help'][9]:   # подсказка на ввод названия города
+
+                    text = "Введите название города, данные для которого Вы хотели бы получить. Для выхода напишите СТОП"
+
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                         encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
+
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                        id_d[event.obj.message['from_id']]['help'][10]:  # подсказка-уточнение названия искомого города
+
+                    text = f'''Вы хотите получить данные о городе {id_d[event.obj.message['from_id']]['lg_lt_city'][2]}?\n Введите ДА или НЕТ'''
+
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                         encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
+
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                        id_d[event.obj.message['from_id']]['help'][11]:  # подсказка о выборе пользователем временного промежутка
+
+                    text = "Прогноз погоды на:\n" \
+                           "○ Данный момент\n"\
+                           "Определенное время"
+
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     random_id=random.randint(0, 2 ** 64))
+
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                        id_d[event.obj.message['from_id']]['help'][12]:  # подсказка о выборе пользователем временного промежутка(режим "определенное время")
+
+                    text = "Вы можете получить прогноз погоды на:\n" \
+                        f"○ {id_d[event.obj.message['from_id']]['ct_parts'][0]}\n" \
+                        f"○ {id_d[event.obj.message['from_id']]['ct_parts'][1]}\n"
+
+                    vk.messages.send(user_id=event.obj.message['from_id'],
+                                     message=text,
+                                     random_id=random.randint(0, 2 ** 64))
 
 
 if __name__ == '__main__':
