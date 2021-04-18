@@ -321,6 +321,7 @@ def main():
                                      attachment=random.choice(
                                          addition.data_doc_addition.attachment_doc_add['city']),
                                      random_id=random.randint(0, 2 ** 64))
+                    print('yesno', id_d[event.obj.message['from_id']])
                 else:
                     text = city_cl.search(city)
 
@@ -330,7 +331,8 @@ def main():
 
         elif event.type == VkBotEventType.MESSAGE_NEW and event.obj.message[
             'text'].lower() in ['да', 'нет'] and not (id_d[event.obj.message['from_id']]['city_fl_pr'] or id_d[event.obj.message['from_id']]['ct_parts']) and \
-                (id_d[event.obj.message['from_id']]['weather_fl'] or id_d[event.obj.message['from_id']]['time_fl']):
+                (id_d[event.obj.message['from_id']]['weather_fl'] or id_d[event.obj.message['from_id']]['time_fl']) and \
+                event.obj.message['text'].lower() not in ['данный момент', 'определенное время']:
 
             id_d[event.obj.message['from_id']]['help'][10] = False   # подсказка-уточнение названия искомого города
 
@@ -394,7 +396,7 @@ def main():
         elif event.type == VkBotEventType.MESSAGE_NEW and (event.obj.message[
             'text'].lower() in ['данный момент', 'определенное время'] or \
                 event.obj.message['text'].lower() in id_d[event.obj.message['from_id']]['ct_parts']) and \
-                id_d[event.obj.message['from_id']]['weather_fl']:
+                id_d[event.obj.message['from_id']]['weather_fl'] and not id_d[event.obj.message['from_id']]['city_fl_pr']:
 
             id_d[event.obj.message['from_id']]['help'][11] = False  # подсказка о выборе пользователем временного промежутка
 
@@ -452,8 +454,6 @@ def main():
                     # список из названий временных промежутков для вывода данных в навыке "погода"(режим "определенное время")
                     text, id_d[event.obj.message['from_id']]['ct_parts'] = weather_cl.response_d('')
 
-                    print(id_d[event.obj.message['from_id']]['ct_parts'])
-
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
                                      random_id=random.randint(0, 2 ** 64))
@@ -498,7 +498,6 @@ def main():
                                          'keyboard\keyboard_menu.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
-
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'перезапустить':
