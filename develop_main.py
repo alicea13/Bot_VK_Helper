@@ -115,10 +115,8 @@ def main():
                              keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(
-                                 addition.data_doc_addition.attachment_doc_add[
-                                     'number']),
+                                 addition.data_doc_addition.attachment_doc_add['number']),
                              random_id=random.randint(0, 2 ** 64))
-
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 id_d[event.obj.message['from_id']]['number_game'] and \
@@ -349,7 +347,8 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-
+                                     keyboard=open('keyboard\keyboard_now_parts.json', 'r',
+                                         encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
                 else:
                     id_d[event.obj.message['from_id']]['help'][1] = True   # подсказка на выбор навыка
