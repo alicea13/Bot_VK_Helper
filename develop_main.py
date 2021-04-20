@@ -1,6 +1,7 @@
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
+import heroku
 
 import addition.data_doc_addition
 import NumberGame, Weather, City
