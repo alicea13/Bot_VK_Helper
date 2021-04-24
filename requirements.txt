@@ -1,7 +1,5 @@
 vk_api
-VkBotLongPoll
-VkBotEventType
+from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 random
 
 addition.data_doc_addition
-# NumberGame, Weather, City
