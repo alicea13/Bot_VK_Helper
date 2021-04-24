@@ -1,5 +1,1 @@
 vk_api
-addition.data_doc_addition.py
-NumberGame.py
-Weather.py
-City.py
