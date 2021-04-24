@@ -1,5 +1,6 @@
 vk_api
-from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
+vk_api.bot_longpoll
+VkBotLongPoll, VkBotEventType
 random
 
 addition.data_doc_addition
