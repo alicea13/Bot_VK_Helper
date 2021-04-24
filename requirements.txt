@@ -1,8 +1,5 @@
 vk_api
-VkBotLongPoll
-VkBotEventType
 random
-
 addition.data_doc_addition
 NumberGame
 Weather
