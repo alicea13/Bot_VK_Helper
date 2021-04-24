@@ -4,4 +4,4 @@ VkBotEventType
 random
 
 addition.data_doc_addition
-NumberGame, Weather, City
+# NumberGame, Weather, City
