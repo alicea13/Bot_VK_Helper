@@ -45,6 +45,14 @@ def main():
                                                            False, False, False,
                                                            False]}
 
+            text = "Для начала работы напишите 'Начать'"
+
+            vk.messages.send(user_id=event.obj.message['from_id'],
+                             message=text,
+                             keyboard=open('keyboard\keyboard_start.json', 'r',
+                                           encoding='UTF-8').read(),
+                             random_id=random.randint(0, 2 ** 64))
+
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'начать' \
                 and not id_d[event.obj.message['from_id']]['flag']:
@@ -90,6 +98,11 @@ def main():
                                      "○ Угадай число\n"
                                      "○ Слова\n"
                                      "○ Быки - коровы\n",
+                             keyboard=open('keyboard\keyboard_games.json', 'r',
+                                           encoding='UTF-8').read(),
+                             attachment=random.choice(
+                                 addition.data_doc_addition.attachment_doc_add[
+                                     'game']),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and 'угадай число' in  \
@@ -499,6 +512,9 @@ def main():
                                          'keyboard\keyboard_menu.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
+
+        # elif event.type == VkBotEventType.MESSAGE_NEW and \
+        #         event.obj.message['text'].lower() == 'перезапустить':
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'перезапустить':
