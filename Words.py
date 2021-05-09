@@ -46,8 +46,6 @@ for let in list(data_words_addition.words_add.keys()):
 
 class WordsGame:
     def find_word(self, except_w={}, f_lett='', one=False, word=''):
-        # if not one:
-        #     f_lett = word[-1]
         print(except_w, f_lett, one, word)
         if except_w:
             words = [i[0] for i in list(cursor.execute(f'''SELECT word FROM {f_lett}''').fetchall())]
@@ -58,19 +56,28 @@ class WordsGame:
                 for w in except_w[f_lett]:   # проходим по словарю названых слов пользователя
                     if w in words:
                         words.remove(w)
-            if words:   # если посде удаления остались слова
-                word_out = random.choice(words)   # рандомно-выбранное слово
-            else:
+            '''if words and (len(words) == 1 and words[0] != word):   # если посде удаления остались слова
+                word_out = random.choice(words)   # рандомно-выбранное слово'''
+            '''else:
                 return True, open('keyboard\keyboard_start_notstart.json', 'r', encoding='UTF-8').read(), \
-                       f'''Я больше не знаю слов на букву {f_lett}\n \ 
-                               Вы выиграли\n \ 
-                               Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ'''
+                       # fЯ больше не знаю слов на букву {f_lett}\n 
+                       # Вы выиграли\n
+                       # Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ'''
+            if len(words) == 1 and words[0] == word:
+                return True, open('keyboard\keyboard_start_notstart.json', 'r',
+                                  encoding='UTF-8').read(), \
+                       f"Я больше не знаю слов на букву {f_lett}\n"\
+                           "Вы выиграли\n"\
+                           "Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ"
+            else:   # если посде удаления остались слова
+                word_out = random.choice(words)  # рандомно-выбранное слово
+
             print(word_out)
             print('ok')
         else:
             print(word)
             words = self.first_move(f_lett)
-            if one:
+            if one and word in words:
                 words.remove(word)
             print(words)
             word_out = random.choice(words)
