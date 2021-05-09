@@ -776,6 +776,8 @@ def main():
                                          random_id=random.randint(0, 2 ** 64))
 
                     else:
+                        if not id_d[event.obj.message['from_id']]['help'][8]:
+                            text = 'Для внесения слова в наши базы нажмите "Добавить слово"'
                         # id_d[event.obj.message['from_id']]['words_game'][0] = False
                         vk.messages.send(user_id=event.obj.message['from_id'],
                                          message=etc,
