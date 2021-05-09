@@ -11,6 +11,7 @@ longpoll = VkBotLongPoll(vk_session, '199196587')
 
 flag = False
 flag_play = False
+words_add_sp, first = {}, False
 
 id_d = dict()
 
@@ -18,7 +19,7 @@ print('start')
 
 
 def main():
-    global flag, flag_play, id_d
+    global flag, flag_play, id_d, words_add_sp
     for event in longpoll.listen():
 
         vk = vk_session.get_api()
@@ -44,6 +45,7 @@ def main():
                                                   'all_last_let': None,
                                                   'one_let': None,
                                                   'words': {},
+                                                  'add_word': '',
                                                   'help': [True, False, False,
                                                            False, False, False,
                                                            False, False, False,
@@ -54,7 +56,6 @@ def main():
                                                            ]}
 
             text = "Для начала работы напишите 'Начать'"
-
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
                              keyboard=open('keyboard\keyboard_start.json', 'r',
@@ -776,13 +777,18 @@ def main():
                                          random_id=random.randint(0, 2 ** 64))
 
                     else:
-                        if not id_d[event.obj.message['from_id']]['help'][8]:
-                            text = 'Для внесения слова в наши базы нажмите "Добавить слово"'
-                        # id_d[event.obj.message['from_id']]['words_game'][0] = False
                         vk.messages.send(user_id=event.obj.message['from_id'],
                                          message=etc,
                                          keyboard=k,
                                          random_id=random.randint(0, 2 ** 64))
+                        if not id_d[event.obj.message['from_id']]['help'][8]:
+                            id_d[event.obj.message['from_id']]['add_word'] = event.obj.message['text'].lower()
+                            text = 'Для внесения слова в наши базы нажмите "Добавить слово"'
+                            vk.messages.send(user_id=event.obj.message['from_id'],
+                                             message=text,
+                                             keyboard=open('keyboard\keyboard_add_stop.json', 'r',
+                                                 encoding='UTF-8').read(),
+                                             random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'перезапустить' and \
@@ -984,6 +990,65 @@ def main():
                                            encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
             print(id_d[event.obj.message['from_id']])
+
+        elif event.type == VkBotEventType.MESSAGE_NEW and \
+                id_d[event.obj.message['from_id']]['flag'] and \
+                id_d[event.obj.message['from_id']]['words_game'][0] and \
+                (id_d[event.obj.message['from_id']]['words_game'][1] == 'all' or \
+                 (id_d[event.obj.message['from_id']]['words_game'][1] == 'one' and \
+                  id_d[event.obj.message['from_id']]['one_let'])) and \
+                event.obj.message['text'].lower() != 'стоп' and \
+                event.obj.message['text'].lower() == 'добавить слово' and \
+                id_d[event.obj.message['from_id']]['words_game'][2] and not \
+                id_d[event.obj.message['from_id']]['help'][8]:
+
+            if not words_add_sp:
+                first = True
+            if event.obj.message['from_id'] not in words_add_sp.keys():
+                words_add_sp[event.obj.message['from_id']] = []
+
+            words_add_sp[event.obj.message['from_id']].append(id_d[event.obj.message['from_id']]['add_word'])
+
+            if first:
+
+                text = f'''Пользователь {event.obj.message['from_id']} хочет добавить слово 💡{id_d[event.obj.message['from_id']]['add_word']}💡'''
+                '''Добавить / Не добавлять'''
+
+                vk.messages.send(user_id=588974025,
+                                 message=text,
+                                 # keyboard=open('keyboard\keyboard_add_stop.json', 'r',
+                                 #     encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+
+        elif event.type == VkBotEventType.MESSAGE_NEW and \
+                id_d[event.obj.message['from_id']]['flag'] and \
+                id_d[event.obj.message['from_id']]['words_game'][0] and \
+                (id_d[event.obj.message['from_id']]['words_game'][1] == 'all' or \
+                 (id_d[event.obj.message['from_id']]['words_game'][1] == 'one' and \
+                  id_d[event.obj.message['from_id']]['one_let'])) and \
+                event.obj.message['text'].lower() != 'стоп' and \
+                event.obj.message['text'].lower() in ['добавить', 'не добавлять'] and \
+                id_d[event.obj.message['from_id']]['words_game'][2] and not \
+                id_d[event.obj.message['from_id']]['help'][8]:
+
+            if event.obj.message['text'].lower() == 'добавить':
+                Words.WordsGame().add_word(event.obj.message['text'].lower())
+
+                if words_add_sp:
+                    id = random.choice(words_add_sp.keys())
+                    id_d[event.obj.message['from_id']]['add_word'] = words_add_sp[id][0]
+
+                    text = f'''Пользователь {id} хочет добавить слово 💡{id_d[event.obj.message['from_id']]['add_word']}💡'''
+                    '''Добавить / Не добавлять'''
+
+                    vk.messages.send(user_id=588974025,
+                                     message=text,
+                                     # keyboard=open('keyboard\keyboard_add_stop.json', 'r',
+                                     #     encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
+
+
+
 
         else:
             if event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower():

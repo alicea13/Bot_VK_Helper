@@ -35,7 +35,7 @@ for let in list(data_words_addition.words_add.keys()):
     count = 1
     for word in data_words_addition.words_add[let]:
         values = (count, name, word, False)
-        cursor  .execute(f"""INSERT INTO {name}(id, first_letter, word, used)
+        cursor.execute(f"""INSERT INTO {name}(id, first_letter, word, used)
                         VALUES(?, ?, ?, ?);""", values)
         count += 1
         conn.commit()
@@ -56,13 +56,7 @@ class WordsGame:
                 for w in except_w[f_lett]:   # проходим по словарю названых слов пользователя
                     if w in words:
                         words.remove(w)
-            '''if words and (len(words) == 1 and words[0] != word):   # если посде удаления остались слова
-                word_out = random.choice(words)   # рандомно-выбранное слово'''
-            '''else:
-                return True, open('keyboard\keyboard_start_notstart.json', 'r', encoding='UTF-8').read(), \
-                       # fЯ больше не знаю слов на букву {f_lett}\n 
-                       # Вы выиграли\n
-                       # Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ'''
+
             if len(words) == 1 and words[0] == word:
                 return True, open('keyboard\keyboard_start_notstart.json', 'r',
                                   encoding='UTF-8').read(), \
@@ -135,3 +129,20 @@ class WordsGame:
             return False, open('keyboard\keyboard_stop.json', 'r', encoding='UTF-8').read(), \
                        "Введенное Вами слово мне не знакомо.\n" \
                        " Попробуйте ввести другое"
+
+    def add_word(self, word):
+
+        words = [i[0] for i in list(cursor.execute(f'''SELECT word FROM {word[0]}''').fetchall())]
+        print(len(words))
+        name = word[0]
+        values = (len(words) + 1, word[0], word, False)
+        cursor.execute(f"""INSERT INTO {name}(id, first_letter, word, used)
+                                VALUES(?, ?, ?, ?);""", values)
+        conn.commit()
+        words = [i[0] for i in list(
+            cursor.execute(f'''SELECT word FROM {word[0]}''').fetchall())]
+        print(words)
+        conn.close()
+
+
+WordsGame().add_word('ёршить')
