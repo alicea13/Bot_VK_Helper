@@ -1035,7 +1035,7 @@ def main():
                 wait_answ = True
                 vk.messages.send(peer_id='2000000001',
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_start.json','r',
+                                 keyboard=open('keyboard\keyboard_add_not.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1064,7 +1064,7 @@ def main():
             wait_answ = True
             vk.messages.send(peer_id='2000000001',
                              message=text,
-                             keyboard=open('keyboard\keyboard_start.json', 'r',
+                             keyboard=open('keyboard\keyboard_add_not.json','r',
                                            encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -1115,11 +1115,9 @@ def main():
             wait_answ = True
             vk.messages.send(peer_id='2000000001',
                              message=text,
-                             keyboard=open('keyboard\keyboard_start.json', 'r',
+                             keyboard=open('keyboard\keyboard_add_not.json', 'r',
                                            encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
-
-
 
         else:
             if event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower():
