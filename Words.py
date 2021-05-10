@@ -6,6 +6,8 @@ from addition import data_words_addition
 conn = sqlite3.connect('VK_words_alphabet.db')
 cursor = conn.cursor()
 
+# cursor.execute('pragma encoding=UTF8')
+
 #   добавления букв алфавита в таблицу alphabet
 '''
 cursor.execute("""CREATE TABLE IF NOT EXISTS alphabet(
@@ -139,10 +141,16 @@ class WordsGame:
         cursor.execute(f"""INSERT INTO {name}(id, first_letter, word, used)
                                 VALUES(?, ?, ?, ?);""", values)
         conn.commit()
-        words = [i[0] for i in list(
-            cursor.execute(f'''SELECT word FROM {word[0]}''').fetchall())]
+        words = [i[0] for i in list(cursor.execute(f'''SELECT word FROM {word[0]}''').fetchall())]
         print(words)
         conn.close()
 
+    def delete_word(self, word):
+        words = [i[0] for i in list(
+            cursor.execute(f'''SELECT word FROM {word[0]}''').fetchall())]
+        t_name = word[0]
+        cursor.execute(f"""DELETE FROM {t_name} WHERE word = ?""", (word,))
+        conn.commit()
+        conn.close()
+        print(words)
 
-WordsGame().add_word('ёршить')
