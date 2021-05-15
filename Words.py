@@ -143,7 +143,7 @@ class WordsGame:
         conn.commit()
         words = [i[0] for i in list(cursor.execute(f'''SELECT word FROM {word[0]}''').fetchall())]
         print(words)
-        conn.close()
+
 
     def delete_word(self, word):
         words = [i[0] for i in list(
