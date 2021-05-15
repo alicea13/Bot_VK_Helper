@@ -719,7 +719,8 @@ def main():
                 event.obj.message['text'].lower() not in ['добавить слово', 'добавить'] and \
                 event.obj.message['text'].lower()[0] in 'абвгдеёчжзийклмнопрстуфхцчшщэюя' and \
                 id_d[event.obj.message['from_id']]['words_game'][2] and not \
-                id_d[event.obj.message['from_id']]['help'][8]:
+                (id_d[event.obj.message['from_id']]['help'][8] or \
+                 id_d[event.obj.message['from_id']]['help'][19]):
                 # id_d[event.obj.message['from_id']]['words_game'][2] == 'polz' and \
 
                 if event.obj.message['text'].lower()[0] not in [id_d[event.obj.message['from_id']]['one_let'],
@@ -816,8 +817,13 @@ def main():
                                              keyboard=k,
                                              random_id=random.randint(0, 2 ** 64))
                             if not id_d[event.obj.message['from_id']]['help'][8]:
+
                                 id_d[event.obj.message['from_id']]['add_word'] = event.obj.message['text'].lower()
                                 text = 'Для внесения слова в наши базы нажмите "Добавить слово"'
+
+                                id_d[event.obj.message['from_id']]['help'][17] = False  # подсказка, о вводе слова на нужную букву(игра «Слова»)
+                                id_d[event.obj.message['from_id']]['help'][19] = True   # подсказка-опрос, хочет ли пользователь предложить добавить слово и БД или нет(игра «Слова»)
+
                                 vk.messages.send(user_id=event.obj.message['from_id'],
                                                  message=text,
                                                  keyboard=open('keyboard\keyboard_add_stop.json', 'r',
@@ -1032,40 +1038,47 @@ def main():
                  (id_d[event.obj.message['from_id']]['words_game'][1] == 'one' and \
                   id_d[event.obj.message['from_id']]['one_let'])) and \
                 event.obj.message['text'].lower() != 'стоп' and \
-                event.obj.message['text'].lower() == 'добавить слово' and \
+                event.obj.message['text'].lower() in ['добавить слово', 'не добавлять слово'] and \
                 id_d[event.obj.message['from_id']]['words_game'][2] and not \
                 id_d[event.obj.message['from_id']]['help'][8]:
 
-            if event.obj.message['from_id'] not in id_add_sp:
-                id_add_sp.append(event.obj.message['from_id'])
-                words_add_d[event.obj.message['from_id']] = []
+            id_d[event.obj.message['from_id']]['help'][17] = True
+            # подсказка, о вводе слова на нужную букву(игра «Слова»)
+            id_d[event.obj.message['from_id']]['help'][19] = False
+            # подсказка-опрос, хочет ли пользователь предложить добавить слово и БД или нет(игра «Слова»)
 
-            words_add_d[event.obj.message['from_id']].append(id_d[event.obj.message['from_id']]['add_word'])
+            if event.obj.message['text'].lower() == 'добавить слово':
+                if event.obj.message['from_id'] not in id_add_sp:
+                    id_add_sp.append(event.obj.message['from_id'])
+                    words_add_d[event.obj.message['from_id']] = []
 
-            if gl_add_word == ['', '']:
-                gl_add_word[0], gl_add_word[1] = event.obj.message['from_id'], id_d[event.obj.message['from_id']]['add_word']
+                words_add_d[event.obj.message['from_id']].append(id_d[event.obj.message['from_id']]['add_word'])
 
-            if not wait_answ:
-                id = random.choice(id_add_sp)
-                id_d[event.obj.message['from_id']]['add_word'] = words_add_d[id][0]
+                if gl_add_word == ['', '']:
+                    gl_add_word[0], gl_add_word[1] = event.obj.message['from_id'], id_d[event.obj.message['from_id']]['add_word']
 
-                text = f'''Пользователь {id} хочет добавить слово \n
-                💡{id_d[event.obj.message['from_id']]['add_word']}💡'''
-                '''Добавить / Не добавлять'''
+                if not wait_answ:
+                    id = random.choice(id_add_sp)
+                    id_d[event.obj.message['from_id']]['add_word'] = words_add_d[id][0]
 
-                wait_answ = True
-                vk.messages.send(peer_id='2000000001',
+                    text = f'''Пользователь {id} хочет добавить слово \n
+                    💡{id_d[event.obj.message['from_id']]['add_word']}💡'''
+                    '''Добавить / Не добавлять'''
+
+                    wait_answ = True
+                    vk.messages.send(peer_id='2000000001',
+                                     message=text,
+                                     keyboard=open('keyboard\keyboard_add_not.json','r',
+                                                   encoding='UTF-8').read(),
+                                     random_id=random.randint(0, 2 ** 64))
+
+                text = "Спасибо за Ваше предложение! \n"\
+                "Оно будет рассмотрено в ближайшие сроки"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_add_not.json','r',
-                                               encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
-            text = "Спасибо за Ваше предложение! \n"\
-            "Оно будет рассмотрено в ближайшие сроки"
-
-            vk.messages.send(user_id=event.obj.message['from_id'],
-                             message=text,
-                             random_id=random.randint(0, 2 ** 64))
             if id_d[event.obj.message['from_id']]['one_let']:
                 text = f"Продолжаем игру! \nВы должны назвать слово на букву {id_d[event.obj.message['from_id']]['one_let']}"
             else:
@@ -1073,6 +1086,7 @@ def main():
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
                              random_id=random.randint(0, 2 ** 64))
+
 
         elif words_add_d and not wait_answ:
             print('спрашиваю')
@@ -1175,6 +1189,28 @@ def main():
                                  random_id=random.randint(0, 2 ** 64))
 
         else:
+            if event.type == VkBotEventType.MESSAGE_NEW and \
+                    event.obj.message['peer_id'] == 2000000001 and not wait_answ:
+                text = 'Пока нет слов-предложений для добаления в БД'
+
+                vk.messages.send(peer_id='2000000001',
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_add_not.json', 'r',
+                                               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+            if event.type == VkBotEventType.MESSAGE_NEW and \
+                    event.obj.message['peer_id'] == 2000000001 and wait_answ and \
+                ('добавить' in event.obj.message['text'].lower() or \
+                 'не добавлять' in event.obj.message['text'].lower()):
+
+                text = f'''Пользователь {gl_add_word[0]} хочет добавить слово \n💡{gl_add_word[1]}💡'''
+                '''Добавить / Не добавлять'''
+
+                vk.messages.send(peer_id='2000000001',
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_add_not.json','r',
+                                               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
 
             if event.type == VkBotEventType.MESSAGE_NEW and \
                         id_d[event.obj.message['from_id']]['help'][0]:   # запрос на ввод фразы, запускающей бот
@@ -1401,6 +1437,17 @@ def main():
 
                 text = "Для продолжения напишите - ДА\n" \
                        "Для завершения игры - НЕТ"
+
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('keyboard\keyboard_y_n.json','r',
+                                               encoding='UTF-8').read(),
+                                 random_id=random.randint(0, 2 ** 64))
+
+            elif event.type == VkBotEventType.MESSAGE_NEW and \
+                        id_d[event.obj.message['from_id']]['help'][19]:   # подсказка-опрос, хочет ли пользователь предложить добавить слово и БД или нет(игра «Слова»)
+
+                text = "Введите «Добавить слово», если хотите предложить это сделать»"
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
