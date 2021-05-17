@@ -4,14 +4,14 @@
         [{
             "action": {
                 "type": "text",
-                "label": "Угадай число"
+                "label": "Добавить"
             },
           "color": "positive"
         },
           {
             "action": {
                 "type": "text",
-                "label": "Слова"
+                "label": "Не добавлять"
             },
           "color": "positive"
           }]
