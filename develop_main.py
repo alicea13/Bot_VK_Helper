@@ -37,6 +37,8 @@ def main():
                                                   'weather_fl': False,
                                                   'time_fl': False,
                                                   'city_fl_pr': False,
+                                                  # 'street_fl_pr': False,
+                                                  # 'house_fl_pr': False,
                                                   'lg_lt_city': [],
                                                   'this_moment': False,
                                                   'certain_time': False,
@@ -47,6 +49,7 @@ def main():
                                                   'one_let': None,
                                                   'words': {},
                                                   'add_word': '',
+                                                  # 'maps': False,
                                                   'help': [True, False, False,
                                                            False, False, False,
                                                            False, False, False,
@@ -92,7 +95,6 @@ def main():
                              attachment=random.choice(
                                  addition.data_doc_addition.attachment_doc_add['hi']),
                              random_id=random.randint(0, 2 ** 64))
-
 
         elif event.type == VkBotEventType.MESSAGE_NEW and 'игр' in \
             event.obj.message['text'].lower() and id_d[event.obj.message['from_id']]['flag'] and \
@@ -290,35 +292,37 @@ def main():
                                      random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower() in \
-                ['погода', 'время'] and not (id_d[event.obj.message['from_id']]['weather_fl'] and \
-                    id_d[event.obj.message['from_id']]['time_fl']) and id_d[event.obj.message['from_id']]['flag']:
+                ['погода', 'время', '_карты_'] and id_d[event.obj.message['from_id']]['flag'] and \
+                not (id_d[event.obj.message['from_id']]['weather_fl'] and \
+                    id_d[event.obj.message['from_id']]['time_fl']):
+                    # id_d[event.obj.message['from_id']]['maps']):
 
-            if not id_d[event.obj.message['from_id']]['weather_fl'] and \
-                    not id_d[event.obj.message['from_id']]['time_fl']:
+            if event.obj.message['text'].lower() == 'погода':
+                id_d[event.obj.message['from_id']]['weather_fl'] = True   # флаг-запуск навыка "погода\время" в режиме "погода"
 
-                if event.obj.message['text'].lower() == 'погода':
-                    id_d[event.obj.message['from_id']]['weather_fl'] = True   # флаг-запуск навыка "погода\время" в режиме "погода"
-                else:
+            elif event.obj.message['text'].lower() == 'время':
+                id_d[event.obj.message['from_id']]['time_fl'] = True   # флаг-запуск навыка "время"
 
-                    id_d[event.obj.message['from_id']]['time_fl'] = True   # флаг-запуск навыка "время"
-                    print(id_d[event.obj.message['from_id']])
+            # else:
+            #     id_d[event.obj.message['from_id']]['maps'] = True  # флаг-запуск навыка "_карты_"
 
-                id_d[event.obj.message['from_id']]['city_fl_pr'] = True   # флаг-маркер процесса определения искомого города
 
-                id_d[event.obj.message['from_id']]['help'][1] = False   # подсказка на выбор навыка
-                id_d[event.obj.message['from_id']]['help'][9] = True  # подсказка на ввод названия города
+            id_d[event.obj.message['from_id']]['city_fl_pr'] = True   # флаг-маркер процесса определения искомого города
 
-                text = "С радостью Вам помогу! Введите название города, данные " \
-                       "для которого Вы хотели бы получить.\n" \
-                       "Для выхода напишите СТОП"
+            id_d[event.obj.message['from_id']]['help'][1] = False   # подсказка на выбор навыка
+            id_d[event.obj.message['from_id']]['help'][9] = True  # подсказка на ввод названия города
 
-                vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json', 'r',
+            text = "С радостью Вам помогу! Введите название города, данные " \
+                    "для которого Вы хотели бы получить.\n" \
+                    "Для выхода напишите СТОП"
+
+            vk.messages.send(user_id=event.obj.message['from_id'],
+                            message=text,
+                            keyboard=open('keyboard\keyboard_stop.json', 'r',
                                                encoding='UTF-8').read(),
-                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                            attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
                                          'planet']),
-                                 random_id=random.randint(0, 2 ** 64))
+                            random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and (id_d[event.obj.message['from_id']]['weather_fl'] or \
             id_d[event.obj.message['from_id']]['time_fl']) and id_d[event.obj.message['from_id']]['city_fl_pr'] and \
@@ -338,8 +342,10 @@ def main():
 
                     text = f"Вы хотите получить данные о городе {id_d[event.obj.message['from_id']]['lg_lt_city'][2]}?\n" \
                         "ДА или НЕТ\n"
+                    print(id_d[event.obj.message['from_id']])
 
                     id_d[event.obj.message['from_id']]['city_fl_pr'] = False   # флаг-маркер процесса определения искомого города
+
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
@@ -348,12 +354,14 @@ def main():
                                      attachment=random.choice(
                                          addition.data_doc_addition.attachment_doc_add['city']),
                                      random_id=random.randint(0, 2 ** 64))
-                    print('yesno', id_d[event.obj.message['from_id']])
                 else:
                     text = city_cl.search(city)
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
+                                     keyboard=open('keyboard\keyboard_stop.json',
+                                                   'r',
+                                                   encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and event.obj.message[
@@ -400,9 +408,9 @@ def main():
                     text = "Выберите один из навыков:\n" \
                            "✅ Игры\n" \
                            "✅ Погода\n" \
-                           "✅ Время\n" \
-                           "✅ Карты\n" \
-                           "✅ Удача\n"
+                           "✅ Время\n"
+                           # "✅ Карты\n" \
+                           # "✅ Удача\n"
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
@@ -454,9 +462,9 @@ def main():
                 text = "Выберите один из навыков:\n" \
                        "✅ Игры\n" \
                        "✅ Погода\n" \
-                       "✅ Время\n" \
-                       "✅ Карты\n" \
-                       "✅ Удача\n"
+                       "✅ Время\n"
+                       # "✅ Карты\n" \
+                       # "✅ Удача\n"
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
@@ -507,23 +515,21 @@ def main():
                     id_d[event.obj.message['from_id']]['weather_fl'] = False  # флаг-запуск навыка "погода\время" в режиме "погода"
                     id_d[event.obj.message['from_id']]['city_fl_pr'] = False   # флаг-маркер процесса определения искомого города
                     id_d[event.obj.message['from_id']]['lg_lt_city'] = []   # список из координат города, его названия
-                    id_d[event.obj.message['from_id']]['certain_time'] = True   # режим "определенное время" в навыке "погода\время"
+                    id_d[event.obj.message['from_id']]['certain_time'] = False   # режим "определенное время" в навыке "погода\время"
                     # список из названий временных промежутков для вывода данных в навыке "погода"(режим "определенное время")
-                    id_d[event.obj.message['from_id']]['ct_parts']: []
+                    id_d[event.obj.message['from_id']]['ct_parts'] = []
 
-                    print('погода 500', id_d[event.obj.message['from_id']])
 
                     text = "Выберите один из навыков:\n" \
                            "✅ Игры\n" \
                            "✅ Погода\n" \
-                           "✅ Время\n" \
-                           "✅ Карты\n" \
-                           "✅ Удача\n"
+                           "✅ Время\n"
+                           # "✅ Карты\n"
+                           # "✅ Удача\n"
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open(
-                                         'keyboard\keyboard_menu.json', 'r',
+                                     keyboard=open('keyboard\keyboard_menu.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -586,9 +592,9 @@ def main():
                 text = "Выберите один из навыков:\n" \
                        "✅ Игры\n" \
                        "✅ Погода\n" \
-                       "✅ Время\n" \
-                       "✅ Карты\n" \
-                       "✅ Удача\n"
+                       "✅ Время\n"
+                       # "✅ Карты\n" \
+                       # "✅ Удача\n"
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
@@ -953,9 +959,9 @@ def main():
             text = "Выберите один из навыков:\n" \
                    "✅ Игры\n" \
                    "✅ Погода\n" \
-                   "✅ Время\n" \
-                   "✅ Карты\n" \
-                   "✅ Удача\n"
+                   "✅ Время\n"
+                   # "✅ Карты\n" \
+                   # "✅ Удача\n"
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
@@ -1020,9 +1026,9 @@ def main():
             text = "Выберите один из навыков:\n" \
                    "✅ Игры\n" \
                    "✅ Погода\n" \
-                   "✅ Время\n" \
-                   "✅ Карты\n" \
-                   "✅ Удача\n"
+                   "✅ Время\n"
+                   # "✅ Карты\n" \
+                   # "✅ Удача\n"
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
@@ -1146,11 +1152,9 @@ def main():
             words_add_d[gl_add_word[0]].pop(0)
 
             if not words_add_d[gl_add_word[0]]:   # проверка, предлагал ли пользователь еще какие-то слова
-                print('1111', words_add_d)
                 # удаляем id пользователя, если больше нет предлагаемых слов
                 # из словаря с ключами + списками предложений
                 words_add_d.pop(gl_add_word[0])
-                print('1113', words_add_d)
 
             id_d[gl_add_word[0]]['add_word'] = ''   # очищаем у id переменную - предлагаемое слово
 
@@ -1244,10 +1248,10 @@ def main():
                         id_d[event.obj.message['from_id']]['help'][2]:   # запрос на выбор одной из доступных игр
 
                     text = "Выберите игру:\n" \
-                           # "○ Камень-ножницы-бумага\n" \
                            "○ Угадай число\n" \
                            "○ Слова\n" \
                            # "○ быки - коровы\n"
+                           # "○ Камень-ножницы-бумага\n" \
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
@@ -1284,8 +1288,8 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_b_m_r.json', 'r',
-                                                   encoding='UTF-8').read(),
+                                     # keyboard=open('keyboard\keyboard_b_m_r.json', 'r',
+                                     #               encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
             elif event.type == VkBotEventType.MESSAGE_NEW and \

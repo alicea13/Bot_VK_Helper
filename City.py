@@ -1,4 +1,5 @@
 import requests
+import os
 
 
 class City:
@@ -53,3 +54,37 @@ class City:
             text = "Извините, я не знаю такого города. Может, Вы допустили ошибку?\n"\
                    "Попробуйте ввести название города еще раз"
             return text
+
+
+# draft
+
+def request(coord_x, coord_y, toponym, delta, user_id, zoom, l_param):
+    # map_request = "http://static-maps.yandex.ru/1.x/?"
+    map_request = "https://static-maps.yandex.ru/1.x/"
+
+    map_params = {
+        "ll": ",".join([coord_x, coord_y]),
+        "spn": ",".join([str(delta), str(delta)]),
+        "l": str(l_param),
+        'z': zoom,
+        'controls': ['searchControl'],
+        'searchControlProvider': 'yandex#search'}
+
+    response = requests.get(map_request, params=map_params)
+
+    if not response:
+        print("Ошибка выполнения запроса:")
+        print(map_request)
+        print("Http статус:", response.status_code, "(", response.reason, ")")
+        sys.exit(1)
+
+    map_file = f"{user_id}.png"
+
+    filename = 'maps_photo/' + map_file
+    if not os.path.exists(os.path.dirname(filename)):
+        dir_name = os.path.dirname(filename)
+        os.makedirs(dir_name)
+
+    with open(filename, "wb") as file:
+        file.write(response.content)
+    return map_file

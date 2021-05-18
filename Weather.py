@@ -31,15 +31,12 @@ class Weather:
                     'lang': "ru_RU"}
 
         self.response = requests.get(self.weather_request, headers=headers, params=w_params)
-        print('stop')
 
     def response_d(self, time):
         if self.response:
             json_response = self.response.json()
             if self.w:
                 if self.time:
-                    print('stop_1')
-                    print(json_response['now'])
                     fact_w = json_response['fact']
 
                     text = f"○ Температура воздуха:  {self.fact_d['temp'][0]} {fact_w['temp']}{self.fact_d['temp'][1]}\n" \
@@ -58,9 +55,6 @@ class Weather:
                                       self.parts[json_response['forecast']['parts'][1]['part_name']]]
                     else:
                         text_1 = ''
-                        print(json_response['forecast']['parts'])
-                        print(json_response['forecast']['parts'][0]['part_name'])
-                        print(json_response['forecast']['parts'][1]['part_name'])
                         if time == 'Утро':
                             if json_response['forecast']['parts'][0]['part_name'] == 'morning':
                                 fact_w = json_response['forecast']['parts'][0]
@@ -90,10 +84,7 @@ class Weather:
                                 fact_w = json_response['forecast']['parts'][1]
                                 text_1 = f"Прогноз на ночь:"
                         if text_1:
-                            print(fact_w['temp_avg'])
-                            print(self.fact_d['temp'][0])
-                            print(self.fact_d['temp'][1])
-                            print(fact_w['condition'])
+
                             text_2 = f"○ Температура воздуха:  {self.fact_d['temp'][0]} {fact_w['temp_avg']}{self.fact_d['temp'][1]}\n" \
                                 f"○ Скорость ветра:  {self.fact_d['wind_speed']} {fact_w['wind_speed']}м/с\n" \
                                 f"○ Направление ветра:  {self.wind_d[fact_w['wind_dir']][1]} {self.wind_d[fact_w['wind_dir']][0]}\n" \
@@ -111,7 +102,6 @@ class Weather:
                     polar_txt = 'да'
                 else:
                     polar_txt = 'нет'
-                print(json_response['forecast'])
                 text = [f"○ Дата:  {self.time_d['date']} {datetime.datetime.now().date()}\n",
                         f"○ Время суток: {self.daytime_d[json_response['fact']['daytime']][1]} {self.daytime_d[json_response['fact']['daytime']][0]}\n",
                         f"○ Порядковый номер недели: #️ {json_response['forecast']['week']}\n",
