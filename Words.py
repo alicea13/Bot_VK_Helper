@@ -1,6 +1,6 @@
 # import requests, random
 import sqlite3, random
-from addition import data_words_addition
+# from addition import data_words_addition
 
 
 conn = sqlite3.connect('VK_words_alphabet.db')

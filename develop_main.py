@@ -1,7 +1,6 @@
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
-import heroku
 
 import addition.data_doc_addition
 import NumberGame, Weather, City, Words
@@ -21,6 +20,7 @@ print('start')
 
 
 def main():
+    print('in function')
     global flag, flag_play, id_d, words_add_d, id_add_sp, gl_add_word, wait_answ
     for event in longpoll.listen():
 
@@ -56,7 +56,7 @@ def main():
                                                            False, False, False,
                                                            False, False, False,
                                                            ]}
-
+            print('new user')
             text = "Для начала работы напишите 'Начать'"
 
             vk.messages.send(user_id=event.obj.message['from_id'],
@@ -328,7 +328,7 @@ def main():
 
                 city = event.obj.message['text'].lower()
 
-                city_cl = City.City(city)
+                city_cl = City.City(event.obj.message['text'].lower())
 
                 if len(city_cl.search(city)) == 3:
 
@@ -346,8 +346,7 @@ def main():
                                      message=text,
                                      keyboard=open('keyboard\keyboard_y_n.json', 'r',
                                          encoding='UTF-8').read(),
-                                     attachment=random.choice(
-                                         addition.data_doc_addition.attachment_doc_add['city']),
+                                     attachment=random.choice(addition.data_doc_addition.attachment_doc_add['city']),
                                      random_id=random.randint(0, 2 ** 64))
                     print('yesno', id_d[event.obj.message['from_id']])
                 else:
@@ -382,7 +381,7 @@ def main():
                     id_d[event.obj.message['from_id']]['help'][1] = True   # подсказка на выбор навыка
                     id_d[event.obj.message['from_id']]['time_fl'] = True   # флаг-запуск навыка "погода\время" в режиме "время"
 
-                    weather_cl = Weather.Weather(city, False,
+                    weather_cl = Weather.Weather(id_d[event.obj.message['from_id']]['lg_lt_city'][2], False,
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][1],
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][0],
                                                  id_d[event.obj.message['from_id']]['weather_fl'])
@@ -435,7 +434,8 @@ def main():
                 if not id_d[event.obj.message['from_id']]['this_moment']:
                     id_d[event.obj.message['from_id']]['this_moment'] = True   # режим "данный момент" в навыке "погода\время"
 
-                weather_cl = Weather.Weather(city, id_d[event.obj.message['from_id']]['this_moment'],
+                weather_cl = Weather.Weather(id_d[event.obj.message['from_id']]['lg_lt_city'][2],
+                                             id_d[event.obj.message['from_id']]['this_moment'],
                                              id_d[event.obj.message['from_id']]['lg_lt_city'][1],
                                              id_d[event.obj.message['from_id']]['lg_lt_city'][0],
                                      id_d[event.obj.message['from_id']]['weather_fl'])
@@ -475,7 +475,8 @@ def main():
                 if not id_d[event.obj.message['from_id']]['certain_time']:
                     id_d[event.obj.message['from_id']]['certain_time'] = True   # режим "определенное время" в навыке "погода\время"
 
-                    weather_cl = Weather.Weather(city, id_d[event.obj.message['from_id']]['this_moment'],
+                    weather_cl = Weather.Weather(id_d[event.obj.message['from_id']]['lg_lt_city'][2],
+                                                 id_d[event.obj.message['from_id']]['this_moment'],
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][1],
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][0],
                                          id_d[event.obj.message['from_id']]['weather_fl'])
@@ -491,7 +492,8 @@ def main():
                     id_d[event.obj.message['from_id']]['help'][12] = False   # подсказка о выборе пользователем временного промежутка(режим "определенное время")
                     id_d[event.obj.message['from_id']]['help'][1] = True   # подсказка на выбор навыка
 
-                    weather_cl = Weather.Weather(city, id_d[event.obj.message['from_id']]['this_moment'],
+                    weather_cl = Weather.Weather(id_d[event.obj.message['from_id']]['lg_lt_city'][2],
+                                                 id_d[event.obj.message['from_id']]['this_moment'],
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][1],
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][0],
                                          id_d[event.obj.message['from_id']]['weather_fl'])
@@ -832,12 +834,9 @@ def main():
                                                  random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
-                event.obj.message['text'].lower() == 'перезапустить' and \
-                id_d[event.obj.message['from_id']]['help'][8]:
+                event.obj.message['text'].lower() == 'перезапустить':
 
             if id_d[event.obj.message['from_id']]['numb_gm_polz']:
-
-                print(id_d[event.obj.message['from_id']])
 
                 id_d[event.obj.message['from_id']]['help'][8] = False   # подсказка о вводе ответа "перезапустить"\"не перезапускать"
                 id_d[event.obj.message['from_id']]['numb_gm_polz'] = False   # флаг-маркер выбронного режима игры "угадай число"
