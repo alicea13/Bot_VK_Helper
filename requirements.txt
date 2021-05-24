@@ -3,5 +3,7 @@ VkBotLongPoll
 VkBotEventType
 random
 
-addition.data_doc_addition
-NumberGame, Weather, City
+addition
+NumberGame
+Weather
+City
