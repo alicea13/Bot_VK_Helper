@@ -1,5 +1,1 @@
 vk_api
-from . import addition
-.NumberGame
-.Weather
-.City
