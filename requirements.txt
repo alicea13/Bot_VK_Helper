@@ -1,5 +1,5 @@
 vk_api
-.addition.data_doc_addition.py
+from . import addition
 .NumberGame
 .Weather
 .City
