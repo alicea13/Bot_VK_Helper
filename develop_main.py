@@ -92,7 +92,7 @@ def main():
                                      "Если Вы хотите очистить историю сообщений, напишите - ❌ ОЧИСТИТЬ ИСТОРИЮ ❌",
                              keyboard=open('keyboard\keyboard_menu.json', 'r',
                                            encoding='UTF-8').read(),
-                             attachment=random.choice(data_doc_addition.attachment_doc_add['hi']),
+                             attachment=random.choice(attachment_doc_add['hi']),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and 'игр' in \
@@ -115,8 +115,7 @@ def main():
                                      "○ Быки - коровы\n",
                              keyboard=open('keyboard\keyboard_games.json', 'r',
                                            encoding='UTF-8').read(),
-                             attachment=random.choice(
-                                 data_doc_addition.attachment_doc_add[
+                             attachment=random.choice(attachment_doc_add[
                                      'game']),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -142,8 +141,7 @@ def main():
                              message=text,
                              keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                            encoding='UTF-8').read(),
-                             attachment=random.choice(
-                                 data_doc_addition.attachment_doc_add['number']),
+                             attachment=random.choice(attachment_doc_add['number']),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
@@ -179,8 +177,7 @@ def main():
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
                                  keyboard=open('keyboard\keyboard_y_n.json', 'r', encoding='UTF-8').read(),
-                                 attachment=random.choice(
-                                     data_doc_addition.attachment_doc_add['time']),
+                                 attachment=random.choice(attachment_doc_add['time']),
                                  random_id=random.randint(0, 2 ** 64))
 
             else:
@@ -302,7 +299,6 @@ def main():
             # else:
             #     id_d[event.obj.message['from_id']]['maps'] = True  # флаг-запуск навыка "_карты_"
 
-
             id_d[event.obj.message['from_id']]['city_fl_pr'] = True   # флаг-маркер процесса определения искомого города
 
             id_d[event.obj.message['from_id']]['help'][1] = False   # подсказка на выбор навыка
@@ -315,7 +311,7 @@ def main():
             vk.messages.send(user_id=event.obj.message['from_id'],
                             message=text,
                             keyboard=open('keyboard\keyboard_stop.json', 'r', encoding='UTF-8').read(),
-                            attachment=random.choice(data.attachment_doc_add['planet']),
+                            attachment=random.choice(attachment_doc_add['planet']),
                             random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and (id_d[event.obj.message['from_id']]['weather_fl'] or \
@@ -344,16 +340,14 @@ def main():
                                      message=text,
                                      keyboard=open('keyboard\keyboard_y_n.json', 'r',
                                          encoding='UTF-8').read(),
-                                     attachment=random.choice(
-                                         data_doc_addition.attachment_doc_add['city']),
+                                     attachment=random.choice(attachment_doc_add['city']),
                                      random_id=random.randint(0, 2 ** 64))
                 else:
                     text = city_cl.search(city)
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_stop.json',
-                                                   'r',
+                                     keyboard=open('keyboard\keyboard_stop.json','r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -405,8 +399,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open(
-                                         'keyboard\keyboard_menu.json', 'r',
+                                     keyboard=open('keyboard\keyboard_menu.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -547,8 +540,7 @@ def main():
                              message=text,
                              keyboard=open('keyboard\keyboard_y_n.json', 'r',
                                            encoding='UTF-8').read(),
-                             attachment=random.choice(data_doc_addition.attachment_doc_add[
-                                     'words']),
+                             attachment=random.choice(attachment_doc_add['words']),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower() \
@@ -627,8 +619,7 @@ def main():
             text = 'Кто начинает - Я или ВЫ ?'
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open(
-                                 'keyboard\keyboard_i_y_stop.json', 'r',
+                             keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                  encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -829,8 +820,7 @@ def main():
                                  message=text,
                                  keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                              encoding='UTF-8').read(),
-                                 attachment=random.choice(data_doc_addition.attachment_doc_add[
-                                                 'number']),
+                                 attachment=random.choice(attachment_doc_add['number']),
                                  random_id=random.randint(0, 2 ** 64))
 
             if id_d[event.obj.message['from_id']]['numb_gm_ii']:
@@ -850,8 +840,7 @@ def main():
                                  message=text,
                                  keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                                encoding='UTF-8').read(),
-                                 attachment=random.choice(data_doc_addition.attachment_doc_add[
-                                                              'number']),
+                                 attachment=random.choice(attachment_doc_add['number']),
                                  random_id=random.randint(0, 2 ** 64))
 
             if id_d[event.obj.message['from_id']]['words_game'][0]:
