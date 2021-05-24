@@ -1,6 +1,4 @@
 vk_api
-VkBotLongPoll
-VkBotEventType
 random
 
 addition
