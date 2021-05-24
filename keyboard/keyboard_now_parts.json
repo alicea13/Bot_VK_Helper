@@ -1,0 +1,19 @@
+{
+  "one_time": true,
+  "buttons": [
+        [{
+            "action": {
+                "type": "text",
+                "label": "Данный момент"
+            },
+          "color": "positive"
+        },
+          {
+            "action": {
+                "type": "text",
+                "label": "Определенное время"
+            },
+          "color": "negative"
+          }]
+    ]
+}

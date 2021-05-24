@@ -1,0 +1,40 @@
+{
+  "one_time": true,
+  "buttons": [
+        [{
+            "action": {
+                "type": "text",
+                "label": "Игры"
+            },
+          "color": "positive"
+        },
+          {
+            "action": {
+                "type": "text",
+                "label": "Погода"
+            },
+          "color": "positive"
+          },
+          {
+            "action": {
+                "type": "text",
+                "label": "Время"
+            },
+          "color": "positive"
+          },
+          {
+            "action": {
+                "type": "text",
+                "label": "Карты"
+            },
+          "color": "positive"
+          },
+          {
+            "action": {
+                "type": "text",
+                "label": "Удача"
+            },
+          "color": "positive"
+          }]
+    ]
+}

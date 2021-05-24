@@ -1,0 +1,32 @@
+{
+  "one_time": true,
+  "buttons": [
+        [{
+            "action": {
+                "type": "text",
+                "label": "БОЛЬШЕ"
+            },
+          "color": "positive"
+        },
+          {
+            "action": {
+                "type": "text",
+                "label": "МЕНЬШЕ"
+            },
+          "color": "positive"
+          },
+          {
+            "action": {
+                "type": "text",
+                "label": "РАВНО"
+            },
+          "color": "positive"
+          },
+        {
+            "action": {
+                "type": "text",
+                "label": "СТОП"
+            },
+          "color": "negative"}]
+    ]
+}

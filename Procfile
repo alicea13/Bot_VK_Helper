@@ -1,1 +1,1 @@
-bot: pithon3 main.py
+bot: python3 develop_main.py
