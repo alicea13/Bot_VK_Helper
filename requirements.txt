@@ -1,6 +1,4 @@
 vk_api
-random
-
 addition
 NumberGame
 Weather
