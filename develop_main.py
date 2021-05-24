@@ -20,6 +20,7 @@ print('start')
 
 
 def main():
+    print('in function')
     global flag, flag_play, id_d, words_add_d, id_add_sp, gl_add_word, wait_answ
     for event in longpoll.listen():
 
@@ -55,7 +56,7 @@ def main():
                                                            False, False, False,
                                                            False, False, False,
                                                            ]}
-
+            print('new user')
             text = "Для начала работы напишите 'Начать'"
 
             vk.messages.send(user_id=event.obj.message['from_id'],
