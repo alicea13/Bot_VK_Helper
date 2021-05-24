@@ -2,8 +2,8 @@ import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
 
-import addition.data_doc_addition
-# import NumberGame, Weather, City
+from addition import data_doc_addition
+import NumberGame, Weather, City
 
 vk_session = vk_api.VkApi(
     token='ffcaa658692c13d6c1bf5fe7946572169e6c4fb1c76ca4e8aef0fb4ddf60ae95e97210da8d6b677df6fb6')
@@ -71,7 +71,7 @@ def main():
                              keyboard=open('keyboard\keyboard_menu.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(
-                                 addition.data_doc_addition.attachment_doc_add['hi']),
+                                 data_doc_addition.attachment_doc_add['hi']),
                              random_id=random.randint(0, 2 ** 64))
 
 
@@ -115,7 +115,7 @@ def main():
                              keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(
-                                 addition.data_doc_addition.attachment_doc_add['number']),
+                                 data_doc_addition.attachment_doc_add['number']),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
@@ -152,7 +152,7 @@ def main():
                                  message=text,
                                  keyboard=open('keyboard\keyboard_y_n.json', 'r', encoding='UTF-8').read(),
                                  attachment=random.choice(
-                                     addition.data_doc_addition.attachment_doc_add['time']),
+                                     data_doc_addition.attachment_doc_add['time']),
                                  random_id=random.randint(0, 2 ** 64))
 
             else:
@@ -289,7 +289,7 @@ def main():
                                  message=text,
                                  keyboard=open('keyboard\keyboard_stop.json', 'r',
                                                encoding='UTF-8').read(),
-                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                                 attachment=random.choice(data_doc_addition.attachment_doc_add[
                                          'planet']),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -319,7 +319,7 @@ def main():
                                      keyboard=open('keyboard\keyboard_y_n.json', 'r',
                                          encoding='UTF-8').read(),
                                      attachment=random.choice(
-                                         addition.data_doc_addition.attachment_doc_add['city']),
+                                         data_doc_addition.attachment_doc_add['city']),
                                      random_id=random.randint(0, 2 ** 64))
                     print('yesno', id_d[event.obj.message['from_id']])
                 else:
@@ -518,7 +518,7 @@ def main():
                                  message=text,
                                  keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                              encoding='UTF-8').read(),
-                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                                 attachment=random.choice(data_doc_addition.attachment_doc_add[
                                                  'number']),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -539,8 +539,7 @@ def main():
                                  message=text,
                                  keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                                encoding='UTF-8').read(),
-                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
-                                                              'number']),
+                                 attachment=random.choice(data_doc_addition.attachment_doc_add['number']),
                                  random_id=random.randint(0, 2 ** 64))
         elif event.type == VkBotEventType.MESSAGE_NEW and \
                 event.obj.message['text'].lower() == 'не перезапускать':
