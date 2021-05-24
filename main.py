@@ -18,6 +18,7 @@ print('start')
 
 
 def main():
+    print('in function')
     global flag, flag_play, id_d
     for event in longpoll.listen():
 
