@@ -2,7 +2,7 @@ import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
 
-import addition.data_doc_addition
+from addition import data_doc_addition
 import NumberGame, Weather, City, Words
 
 vk_session = vk_api.VkApi(
@@ -92,8 +92,7 @@ def main():
                                      "Если Вы хотите очистить историю сообщений, напишите - ❌ ОЧИСТИТЬ ИСТОРИЮ ❌",
                              keyboard=open('keyboard\keyboard_menu.json', 'r',
                                            encoding='UTF-8').read(),
-                             attachment=random.choice(
-                                 addition.data_doc_addition.attachment_doc_add['hi']),
+                             attachment=random.choice(data_doc_addition.attachment_doc_add['hi']),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and 'игр' in \
@@ -117,7 +116,7 @@ def main():
                              keyboard=open('keyboard\keyboard_games.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(
-                                 addition.data_doc_addition.attachment_doc_add[
+                                 data_doc_addition.attachment_doc_add[
                                      'game']),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -144,7 +143,7 @@ def main():
                              keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(
-                                 addition.data_doc_addition.attachment_doc_add['number']),
+                                 data_doc_addition.attachment_doc_add['number']),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
@@ -181,7 +180,7 @@ def main():
                                  message=text,
                                  keyboard=open('keyboard\keyboard_y_n.json', 'r', encoding='UTF-8').read(),
                                  attachment=random.choice(
-                                     addition.data_doc_addition.attachment_doc_add['time']),
+                                     data_doc_addition.attachment_doc_add['time']),
                                  random_id=random.randint(0, 2 ** 64))
 
             else:
@@ -320,7 +319,7 @@ def main():
                             message=text,
                             keyboard=open('keyboard\keyboard_stop.json', 'r',
                                                encoding='UTF-8').read(),
-                            attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                            attachment=random.choice(data_doc_addition.attachment_doc_add[
                                          'planet']),
                             random_id=random.randint(0, 2 ** 64))
 
@@ -352,7 +351,7 @@ def main():
                                      keyboard=open('keyboard\keyboard_y_n.json', 'r',
                                          encoding='UTF-8').read(),
                                      attachment=random.choice(
-                                         addition.data_doc_addition.attachment_doc_add['city']),
+                                         data_doc_addition.attachment_doc_add['city']),
                                      random_id=random.randint(0, 2 ** 64))
                 else:
                     text = city_cl.search(city)
@@ -561,7 +560,7 @@ def main():
                              message=text,
                              keyboard=open('keyboard\keyboard_y_n.json', 'r',
                                            encoding='UTF-8').read(),
-                             attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                             attachment=random.choice(data_doc_addition.attachment_doc_add[
                                      'words']),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -857,7 +856,7 @@ def main():
                                  message=text,
                                  keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                              encoding='UTF-8').read(),
-                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                                 attachment=random.choice(data_doc_addition.attachment_doc_add[
                                                  'number']),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -880,7 +879,7 @@ def main():
                                  message=text,
                                  keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
                                                encoding='UTF-8').read(),
-                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                                 attachment=random.choice(data_doc_addition.attachment_doc_add[
                                                               'number']),
                                  random_id=random.randint(0, 2 ** 64))
 
