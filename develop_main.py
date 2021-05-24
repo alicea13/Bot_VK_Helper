@@ -2,7 +2,7 @@ import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 import random
 
-from .addition import data_doc_addition
+import addition.data_doc_addition
 import NumberGame, Weather, City, Words
 
 vk_session = vk_api.VkApi(
