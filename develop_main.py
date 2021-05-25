@@ -20,6 +20,7 @@ print('start')
 
 
 def main():
+    print('in function')
     global flag, flag_play, id_d, words_add_d, id_add_sp, gl_add_word, wait_answ
     for event in longpoll.listen():
 
@@ -37,8 +38,6 @@ def main():
                                                   'weather_fl': False,
                                                   'time_fl': False,
                                                   'city_fl_pr': False,
-                                                  # 'street_fl_pr': False,
-                                                  # 'house_fl_pr': False,
                                                   'lg_lt_city': [],
                                                   'this_moment': False,
                                                   'certain_time': False,
@@ -49,7 +48,6 @@ def main():
                                                   'one_let': None,
                                                   'words': {},
                                                   'add_word': '',
-                                                  # 'maps': False,
                                                   'help': [True, False, False,
                                                            False, False, False,
                                                            False, False, False,
@@ -58,12 +56,12 @@ def main():
                                                            False, False, False,
                                                            False, False, False,
                                                            ]}
-
+            print('new user')
             text = "Для начала работы напишите 'Начать'"
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_start.json', 'r',
+                             keyboard=open('./keyboard/keyboard_start.json', 'r',
                                            encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -87,13 +85,15 @@ def main():
                                      "✅ Игры\n" \
                                      "✅ Погода\n" \
                                      "✅ Время\n" \
-                                     # "✅ Карты\n" \
-                                     # "✅ Удача\n" \
+                                     "✅ Карты\n" \
+                                     "✅ Удача\n" \
                                      "Если Вы хотите очистить историю сообщений, напишите - ❌ ОЧИСТИТЬ ИСТОРИЮ ❌",
-                             keyboard=open('keyboard\keyboard_menu.json', 'r',
+                             keyboard=open('./keyboard/keyboard_menu.json', 'r',
                                            encoding='UTF-8').read(),
-                             attachment=random.choice(attachment_doc_add['hi']),
+                             attachment=random.choice(
+                                 addition.data_doc_addition.attachment_doc_add['hi']),
                              random_id=random.randint(0, 2 ** 64))
+
 
         elif event.type == VkBotEventType.MESSAGE_NEW and 'игр' in \
             event.obj.message['text'].lower() and id_d[event.obj.message['from_id']]['flag'] and \
@@ -113,9 +113,10 @@ def main():
                                      "○ Угадай число\n"
                                      "○ Слова\n"
                                      "○ Быки - коровы\n",
-                             keyboard=open('keyboard\keyboard_games.json', 'r',
+                             keyboard=open('./keyboard/keyboard_games.json', 'r',
                                            encoding='UTF-8').read(),
-                             attachment=random.choice(attachment_doc_add[
+                             attachment=random.choice(
+                                 addition.data_doc_addition.attachment_doc_add[
                                      'game']),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -139,9 +140,10 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                             keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                            encoding='UTF-8').read(),
-                             attachment=random.choice(attachment_doc_add['number']),
+                             attachment=random.choice(
+                                 addition.data_doc_addition.attachment_doc_add['number']),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
@@ -162,7 +164,7 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_y_n.json', 'r', encoding='UTF-8').read(),
+                             keyboard=open('./keyboard/keyboard_y_n.json', 'r', encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
@@ -176,8 +178,9 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_y_n.json', 'r', encoding='UTF-8').read(),
-                                 attachment=random.choice(attachment_doc_add['time']),
+                                 keyboard=open('./keyboard/keyboard_y_n.json', 'r', encoding='UTF-8').read(),
+                                 attachment=random.choice(
+                                     addition.data_doc_addition.attachment_doc_add['time']),
                                  random_id=random.randint(0, 2 ** 64))
 
             else:
@@ -199,7 +202,8 @@ def main():
         elif event.type == VkBotEventType.MESSAGE_NEW and event.obj.message[
             'text'].lower() in ['больше', 'меньше', 'равно'] and \
                 id_d[event.obj.message['from_id']]['numb_gm_polz']:
-
+                # id_d[event.obj.message['from_id']]['flag'] \
+                # id_d[event.obj.message['from_id']]['number_game'] and \
             if numb_gm_p_cl.minim < numb_gm_p_cl.maxim - 1:
 
                 id_d[event.obj.message['from_id']]['help'][5], \
@@ -216,7 +220,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_start_notstart.json',
+                                 keyboard=open('./keyboard/keyboard_start_notstart.json',
                                                'r', encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -233,14 +237,15 @@ def main():
             numb_gm_ii_cl = NumberGame.NumberGameII(
                 id_d[event.obj.message['from_id']]['number_game'],
                 id_d[event.obj.message['from_id']]['numb_gm_ii'],
-                id_d[event.obj.message['from_id']]['find_highest'], False)
+                id_d[event.obj.message['from_id']]['find_highest'],
+                False)
 
             text = "Введите максимальное число, которое мне можно загадать\n" \
                    "Минимальное число - 0"
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_stop.json',
+                             keyboard=open('./keyboard/keyboard_stop.json',
                                            'r', encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -262,7 +267,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_stop.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -274,45 +279,47 @@ def main():
                 if keyboard:
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_start_notstart.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_start_notstart.json', 'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
                 else:
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_stop.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower() in \
-                ['погода', 'время', '_карты_'] and id_d[event.obj.message['from_id']]['flag'] and \
-                not (id_d[event.obj.message['from_id']]['weather_fl'] and \
-                    id_d[event.obj.message['from_id']]['time_fl']):
+                ['погода', 'время'] and not (id_d[event.obj.message['from_id']]['weather_fl'] and \
+                    id_d[event.obj.message['from_id']]['time_fl']) and id_d[event.obj.message['from_id']]['flag']:
 
-            if event.obj.message['text'].lower() == 'погода':
-                id_d[event.obj.message['from_id']]['weather_fl'] = True   # флаг-запуск навыка "погода\время" в режиме "погода"
+            if not id_d[event.obj.message['from_id']]['weather_fl'] and \
+                    not id_d[event.obj.message['from_id']]['time_fl']:
 
-            elif event.obj.message['text'].lower() == 'время':
-                id_d[event.obj.message['from_id']]['time_fl'] = True   # флаг-запуск навыка "время"
+                if event.obj.message['text'].lower() == 'погода':
+                    id_d[event.obj.message['from_id']]['weather_fl'] = True   # флаг-запуск навыка "погода\время" в режиме "погода"
+                else:
 
-            # else:
-            #     id_d[event.obj.message['from_id']]['maps'] = True  # флаг-запуск навыка "_карты_"
+                    id_d[event.obj.message['from_id']]['time_fl'] = True   # флаг-запуск навыка "время"
+                    print(id_d[event.obj.message['from_id']])
 
-            id_d[event.obj.message['from_id']]['city_fl_pr'] = True   # флаг-маркер процесса определения искомого города
+                id_d[event.obj.message['from_id']]['city_fl_pr'] = True   # флаг-маркер процесса определения искомого города
 
-            id_d[event.obj.message['from_id']]['help'][1] = False   # подсказка на выбор навыка
-            id_d[event.obj.message['from_id']]['help'][9] = True  # подсказка на ввод названия города
+                id_d[event.obj.message['from_id']]['help'][1] = False   # подсказка на выбор навыка
+                id_d[event.obj.message['from_id']]['help'][9] = True  # подсказка на ввод названия города
 
-            text = "С радостью Вам помогу! Введите название города, данные " \
-                    "для которого Вы хотели бы получить.\n" \
-                    "Для выхода напишите СТОП"
+                text = "С радостью Вам помогу! Введите название города, данные " \
+                       "для которого Вы хотели бы получить.\n" \
+                       "Для выхода напишите СТОП"
 
-            vk.messages.send(user_id=event.obj.message['from_id'],
-                            message=text,
-                            keyboard=open('keyboard\keyboard_stop.json', 'r', encoding='UTF-8').read(),
-                            attachment=random.choice(attachment_doc_add['planet']),
-                            random_id=random.randint(0, 2 ** 64))
+                vk.messages.send(user_id=event.obj.message['from_id'],
+                                 message=text,
+                                 keyboard=open('./keyboard/keyboard_stop.json', 'r',
+                                               encoding='UTF-8').read(),
+                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                                         'planet']),
+                                 random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and (id_d[event.obj.message['from_id']]['weather_fl'] or \
             id_d[event.obj.message['from_id']]['time_fl']) and id_d[event.obj.message['from_id']]['city_fl_pr'] and \
@@ -321,7 +328,7 @@ def main():
 
                 city = event.obj.message['text'].lower()
 
-                city_cl = City.City(city)
+                city_cl = City.City(event.obj.message['text'].lower())
 
                 if len(city_cl.search(city)) == 3:
 
@@ -332,23 +339,21 @@ def main():
 
                     text = f"Вы хотите получить данные о городе {id_d[event.obj.message['from_id']]['lg_lt_city'][2]}?\n" \
                         "ДА или НЕТ\n"
-                    print(id_d[event.obj.message['from_id']])
 
                     id_d[event.obj.message['from_id']]['city_fl_pr'] = False   # флаг-маркер процесса определения искомого города
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_y_n.json', 'r',
                                          encoding='UTF-8').read(),
-                                     attachment=random.choice(attachment_doc_add['city']),
+                                     attachment=random.choice(addition.data_doc_addition.attachment_doc_add['city']),
                                      random_id=random.randint(0, 2 ** 64))
+                    print('yesno', id_d[event.obj.message['from_id']])
                 else:
                     text = city_cl.search(city)
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_stop.json','r',
-                                                   encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and event.obj.message[
@@ -369,14 +374,14 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_now_parts.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_now_parts.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
                 else:
                     id_d[event.obj.message['from_id']]['help'][1] = True   # подсказка на выбор навыка
                     id_d[event.obj.message['from_id']]['time_fl'] = True   # флаг-запуск навыка "погода\время" в режиме "время"
 
-                    weather_cl = Weather.Weather(city, False,
+                    weather_cl = Weather.Weather(id_d[event.obj.message['from_id']]['lg_lt_city'][2], False,
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][1],
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][0],
                                                  id_d[event.obj.message['from_id']]['weather_fl'])
@@ -395,11 +400,13 @@ def main():
                     text = "Выберите один из навыков:\n" \
                            "✅ Игры\n" \
                            "✅ Погода\n" \
-                           "✅ Время\n"
+                           "✅ Время\n" \
+                           "✅ Карты\n" \
+                           "✅ Удача\n"
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_menu.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_menu.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -426,7 +433,8 @@ def main():
                 if not id_d[event.obj.message['from_id']]['this_moment']:
                     id_d[event.obj.message['from_id']]['this_moment'] = True   # режим "данный момент" в навыке "погода\время"
 
-                weather_cl = Weather.Weather(city, id_d[event.obj.message['from_id']]['this_moment'],
+                weather_cl = Weather.Weather(id_d[event.obj.message['from_id']]['lg_lt_city'][2],
+                                             id_d[event.obj.message['from_id']]['this_moment'],
                                              id_d[event.obj.message['from_id']]['lg_lt_city'][1],
                                              id_d[event.obj.message['from_id']]['lg_lt_city'][0],
                                      id_d[event.obj.message['from_id']]['weather_fl'])
@@ -446,10 +454,13 @@ def main():
                 text = "Выберите один из навыков:\n" \
                        "✅ Игры\n" \
                        "✅ Погода\n" \
-                       "✅ Время\n"
+                       "✅ Время\n" \
+                       "✅ Карты\n" \
+                       "✅ Удача\n"
+
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_menu.json',
+                                 keyboard=open('./keyboard/keyboard_menu.json',
                                                'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
@@ -463,7 +474,8 @@ def main():
                 if not id_d[event.obj.message['from_id']]['certain_time']:
                     id_d[event.obj.message['from_id']]['certain_time'] = True   # режим "определенное время" в навыке "погода\время"
 
-                    weather_cl = Weather.Weather(city, id_d[event.obj.message['from_id']]['this_moment'],
+                    weather_cl = Weather.Weather(id_d[event.obj.message['from_id']]['lg_lt_city'][2],
+                                                 id_d[event.obj.message['from_id']]['this_moment'],
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][1],
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][0],
                                          id_d[event.obj.message['from_id']]['weather_fl'])
@@ -479,7 +491,8 @@ def main():
                     id_d[event.obj.message['from_id']]['help'][12] = False   # подсказка о выборе пользователем временного промежутка(режим "определенное время")
                     id_d[event.obj.message['from_id']]['help'][1] = True   # подсказка на выбор навыка
 
-                    weather_cl = Weather.Weather(city, id_d[event.obj.message['from_id']]['this_moment'],
+                    weather_cl = Weather.Weather(id_d[event.obj.message['from_id']]['lg_lt_city'][2],
+                                                 id_d[event.obj.message['from_id']]['this_moment'],
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][1],
                                                  id_d[event.obj.message['from_id']]['lg_lt_city'][0],
                                          id_d[event.obj.message['from_id']]['weather_fl'])
@@ -496,19 +509,22 @@ def main():
                     id_d[event.obj.message['from_id']]['weather_fl'] = False  # флаг-запуск навыка "погода\время" в режиме "погода"
                     id_d[event.obj.message['from_id']]['city_fl_pr'] = False   # флаг-маркер процесса определения искомого города
                     id_d[event.obj.message['from_id']]['lg_lt_city'] = []   # список из координат города, его названия
-                    id_d[event.obj.message['from_id']]['certain_time'] = False   # режим "определенное время" в навыке "погода\время"
+                    id_d[event.obj.message['from_id']]['certain_time'] = True   # режим "определенное время" в навыке "погода\время"
                     # список из названий временных промежутков для вывода данных в навыке "погода"(режим "определенное время")
-                    id_d[event.obj.message['from_id']]['ct_parts'] = []
+                    id_d[event.obj.message['from_id']]['ct_parts']: []
 
+                    print('погода 500', id_d[event.obj.message['from_id']])
 
                     text = "Выберите один из навыков:\n" \
                            "✅ Игры\n" \
                            "✅ Погода\n" \
-                           "✅ Время\n"
+                           "✅ Время\n" \
+                           "✅ Карты\n" \
+                           "✅ Удача\n"
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_menu.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_menu.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -538,9 +554,10 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                             keyboard=open('./keyboard/keyboard_y_n.json', 'r',
                                            encoding='UTF-8').read(),
-                             attachment=random.choice(attachment_doc_add['words']),
+                             attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                                     'words']),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and event.obj.message['text'].lower() \
@@ -557,7 +574,7 @@ def main():
                        'одну букву или на все буквы алфавита?'
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_all_one.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_all_one.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
             else:
@@ -565,14 +582,18 @@ def main():
                 id_d[event.obj.message['from_id']]['help'][1] = True  # подсказка на выбор навыка
                 id_d[event.obj.message['from_id']]['words_game'][0] = False  # флаг-запуск игры "слова"
 
+                print(id_d[event.obj.message['from_id']])
+
                 text = "Выберите один из навыков:\n" \
                        "✅ Игры\n" \
                        "✅ Погода\n" \
-                       "✅ Время\n"
+                       "✅ Время\n" \
+                       "✅ Карты\n" \
+                       "✅ Удача\n"
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_menu.json','r',
+                                 keyboard=open('./keyboard/keyboard_menu.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -586,6 +607,7 @@ def main():
             if event.obj.message['text'].lower() == 'на одну букву':
 
                 id_d[event.obj.message['from_id']]['words_game'][1] = 'one'
+                # id_d[event.obj.message['from_id']]['words_one_f'] = True # флаг-поиск буквы на которую будут начинаться слова
 
                 id_d[event.obj.message['from_id']]['help'][13] = False   # подсказка-запрос выбора режима игры(игра «Слова»)
                 id_d[event.obj.message['from_id']]['help'][14] = True   # подсказка-запрос о вводе буквы, на которую должны начинаться слова(игра «Слова»)
@@ -602,7 +624,7 @@ def main():
                 text = 'Кто начинает - Я или ВЫ ?'
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                      encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -619,7 +641,7 @@ def main():
             text = 'Кто начинает - Я или ВЫ ?'
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                             keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                  encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -634,6 +656,8 @@ def main():
                 id_d[event.obj.message['from_id']]['help'][15] = False  # подсказка, кто начинает игру(игра «Слова»)
                 id_d[event.obj.message['from_id']]['help'][16] = True   # подсказка, о вводе первого слова на нужную букву(игра «Слова»)
 
+                print(id_d[event.obj.message['from_id']]['help'])
+
                 if id_d[event.obj.message['from_id']]['words_game'][1] == 'one':
                     text = f"Назовите слово на букву {id_d[event.obj.message['from_id']]['one_let']}"
                 else:
@@ -641,7 +665,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_stop.json', 'r',
                                      encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
             else:
@@ -662,6 +686,8 @@ def main():
                 else:
                     id_d[event.obj.message['from_id']]['help'][8], k, etc = \
                         Words.WordsGame().find_word(id_d[event.obj.message['from_id']]['words'], '', False, '')
+
+                print(etc)
 
                 if id_d[event.obj.message['from_id']]['words_game'][1] == 'all':
 
@@ -695,6 +721,7 @@ def main():
                 id_d[event.obj.message['from_id']]['words_game'][2] and not \
                 (id_d[event.obj.message['from_id']]['help'][8] or \
                  id_d[event.obj.message['from_id']]['help'][19]):
+                # id_d[event.obj.message['from_id']]['words_game'][2] == 'polz' and \
 
                 if event.obj.message['text'].lower()[0] not in [id_d[event.obj.message['from_id']]['one_let'],
                                                                 id_d[event.obj.message['from_id']]['all_last_let']] and \
@@ -723,6 +750,7 @@ def main():
                                      keyboard=k,
                                      random_id=random.randint(0, 2 ** 64))
                 else:
+                    print(words_add_d)
                     if event.obj.message['from_id'] in words_add_d.keys() and \
                             event.obj.message['text'].lower() in words_add_d[event.obj.message['from_id']]:
 
@@ -731,7 +759,7 @@ def main():
 
                         vk.messages.send(user_id=event.obj.message['from_id'],
                                          message=text,
-                                         keyboard=open('keyboard\keyboard_stop.json','r',
+                                         keyboard=open('./keyboard/keyboard_stop.json','r',
                                              encoding='UTF-8').read(),
                                          random_id=random.randint(0, 2 ** 64))
                     else:
@@ -746,6 +774,7 @@ def main():
                             id_d[event.obj.message['from_id']]['help'][8], k, etc = \
                                 Words.WordsGame().check_word(event.obj.message['text'].lower(),
                                                              id_d[event.obj.message['from_id']]['words'],f_let='')
+                        print(etc)
                         if len(etc) == 2:
                             if event.obj.message['text'].lower()[0] not in id_d[event.obj.message['from_id']]['words'].keys():
 
@@ -797,7 +826,7 @@ def main():
 
                                 vk.messages.send(user_id=event.obj.message['from_id'],
                                                  message=text,
-                                                 keyboard=open('keyboard\keyboard_add_stop.json', 'r',
+                                                 keyboard=open('./keyboard/keyboard_add_stop.json', 'r',
                                                      encoding='UTF-8').read(),
                                                  random_id=random.randint(0, 2 ** 64))
 
@@ -818,12 +847,15 @@ def main():
                 text = "⚪ Кто загадывает число: Я или ВЫ?"
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                              encoding='UTF-8').read(),
-                                 attachment=random.choice(attachment_doc_add['number']),
+                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                                                 'number']),
                                  random_id=random.randint(0, 2 ** 64))
 
             if id_d[event.obj.message['from_id']]['numb_gm_ii']:
+
+                print(id_d[event.obj.message['from_id']])
 
                 id_d[event.obj.message['from_id']]['help'][8] = False  # подсказка о вводе ответа "перезапустить"\"не перезапускать"
                 id_d[event.obj.message['from_id']]['numb_gm_ii'] = False  # флаг-маркер выбронного режима игры "угадай число"
@@ -838,12 +870,15 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                                encoding='UTF-8').read(),
-                                 attachment=random.choice(attachment_doc_add['number']),
+                                 attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
+                                                              'number']),
                                  random_id=random.randint(0, 2 ** 64))
 
             if id_d[event.obj.message['from_id']]['words_game'][0]:
+
+                print(id_d[event.obj.message['from_id']])
 
                 id_d[event.obj.message['from_id']]['words_game'][0] = [True, None, None]  # флаг-запуск игры "слова"
                                                                                         # режим игры(игра «Слова»)
@@ -863,12 +898,13 @@ def main():
                 id_d[event.obj.message['from_id']]['help'][16] = False  # подсказка, о вводе первого слова на нужную букву(игра «Слова»)
                 id_d[event.obj.message['from_id']]['help'][17] = False  # подсказка, о вводе слова на нужную букву(игра «Слова»)
                 id_d[event.obj.message['from_id']]['help'][18] = False  # подсказка-опрос, о начале игры(игра «Слова»)
+                print(id_d[event.obj.message['from_id']])
 
                 text = 'Мы с Вами будем играть в слова на ' \
                        'одну букву или на все буквы алфавита?'
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_all_one.json','r',
+                                 keyboard=open('./keyboard/keyboard_all_one.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -894,6 +930,8 @@ def main():
 
             if id_d[event.obj.message['from_id']]['words_game'][0]:
 
+                print(id_d[event.obj.message['from_id']])
+
                 id_d[event.obj.message['from_id']]['help'][8] = False  # подсказка о вводе ответа "перезапустить"\"не перезапускать"
                 id_d[event.obj.message['from_id']]['help'][1] = True  # подсказка на выбор навыка
 
@@ -908,14 +946,19 @@ def main():
 
                 id_d[event.obj.message['from_id']]['words'] = {}  # словарь с названными словами(игра «Слова»)
 
+                print(id_d[event.obj.message['from_id']])
+
             text = "Выберите один из навыков:\n" \
                    "✅ Игры\n" \
                    "✅ Погода\n" \
-                   "✅ Время\n"
+                   "✅ Время\n" \
+                   "✅ Карты\n" \
+                   "✅ Удача\n"
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_menu.json', 'r',encoding='UTF-8').read(),
+                             keyboard=open('./keyboard/keyboard_menu.json', 'r',
+                                           encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
@@ -949,6 +992,8 @@ def main():
 
             if id_d[event.obj.message['from_id']]['words_game'][0]:
 
+                print(id_d[event.obj.message['from_id']])
+
                 id_d[event.obj.message['from_id']]['words_game'] = [False, None, None]  # флаг-запуск игры "слова"
                                                                                            # режим игры(игра «Слова»)
                                                                                            # кто начинет(игра «Слова»)
@@ -973,10 +1018,14 @@ def main():
             text = "Выберите один из навыков:\n" \
                    "✅ Игры\n" \
                    "✅ Погода\n" \
-                   "✅ Время\n"
+                   "✅ Время\n" \
+                   "✅ Карты\n" \
+                   "✅ Удача\n"
+
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_menu.json', 'r',encoding='UTF-8').read(),
+                             keyboard=open('./keyboard/keyboard_menu.json', 'r',
+                                           encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
             print(id_d[event.obj.message['from_id']])
 
@@ -1017,7 +1066,7 @@ def main():
                     wait_answ = True
                     vk.messages.send(peer_id='2000000001',
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_add_not.json','r',
+                                     keyboard=open('./keyboard/keyboard_add_not.json','r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1036,6 +1085,7 @@ def main():
                              message=text,
                              random_id=random.randint(0, 2 ** 64))
 
+
         elif words_add_d and not wait_answ:
             print('спрашиваю')
             id = random.choice(id_add_sp)
@@ -1048,7 +1098,7 @@ def main():
             wait_answ = True
             vk.messages.send(peer_id='2000000001',
                              message=text,
-                             keyboard=open('keyboard\keyboard_add_not.json','r',
+                             keyboard=open('./keyboard/keyboard_add_not.json','r',
                                            encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -1075,10 +1125,12 @@ def main():
                 text = f"Слово {gl_add_word[1]} было добавлено в словарь. Благодарим за Ваше предложение\n"\
                     f"Слово {gl_add_word[1]} - Ваш ход, и считается использованным"
 
+                print(id_d[event.obj.message['from_id']]['words'].keys())
                 if gl_add_word[1][0] not in id_d[event.obj.message['from_id']]['words'].keys():
                     id_d[event.obj.message['from_id']]['words'][gl_add_word[1][0]] = []
 
                 id_d[event.obj.message['from_id']]['words'][gl_add_word[1][0]].append(gl_add_word[1])
+                print(id_d[event.obj.message['from_id']]['words'])
 
             else:
                 text = f"Слово {gl_add_word[1]} не было добавлено в словарь. Но благодарим за Ваше предложение"
@@ -1092,13 +1144,21 @@ def main():
             words_add_d[gl_add_word[0]].pop(0)
 
             if not words_add_d[gl_add_word[0]]:   # проверка, предлагал ли пользователь еще какие-то слова
+                print('1111', words_add_d)
                 # удаляем id пользователя, если больше нет предлагаемых слов
                 # из словаря с ключами + списками предложений
                 words_add_d.pop(gl_add_word[0])
+                print('1113', words_add_d)
 
             id_d[gl_add_word[0]]['add_word'] = ''   # очищаем у id переменную - предлагаемое слово
 
+            print("id_d[gl_add_word[0]]['add_word'] = ", id_d[gl_add_word[0]]['add_word'])
+            # words_add_d[gl_add_word[0]].pop(0)
+
             gl_add_word = ['', '']   # очищаем глобальную переменную с id пользователя и предлагаемым им словом
+
+            print("gl_add_word =", gl_add_word)
+            print("words_add_d = ", words_add_d)
 
             if words_add_d.keys():   # проверка, есть ли еще id пользователей с предложениями слов
 
@@ -1113,7 +1173,7 @@ def main():
                 wait_answ = True
                 vk.messages.send(peer_id='2000000001',
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_add_not.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_add_not.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
             else:
@@ -1122,7 +1182,7 @@ def main():
                 wait_answ = False
                 vk.messages.send(peer_id='2000000001',
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_add_not.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_add_not.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1133,7 +1193,7 @@ def main():
 
                 vk.messages.send(peer_id='2000000001',
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_add_not.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_add_not.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
             if event.type == VkBotEventType.MESSAGE_NEW and \
@@ -1146,7 +1206,7 @@ def main():
 
                 vk.messages.send(peer_id='2000000001',
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_add_not.json','r',
+                                 keyboard=open('./keyboard/keyboard_add_not.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1157,7 +1217,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_start.json',
+                                     keyboard=open('./keyboard/keyboard_start.json',
                                                    'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
@@ -1167,10 +1227,13 @@ def main():
                     text = "Выберите один из навыков:\n" \
                                    "✅ Игры\n" \
                                    "✅ Погода\n" \
-                                   "✅ Время\n"
+                                   "✅ Время\n" \
+                                   "✅ Карты\n" \
+                                   "✅ Удача\n"
+
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_menu.json',
+                                     keyboard=open('./keyboard/keyboard_menu.json',
                                                    'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
@@ -1179,11 +1242,14 @@ def main():
                         id_d[event.obj.message['from_id']]['help'][2]:   # запрос на выбор одной из доступных игр
 
                     text = "Выберите игру:\n" \
+                           "○ Камень-ножницы-бумага\n" \
                            "○ Угадай число\n" \
-                           "○ Слова\n"
+                           "○ Слова\n" \
+                           "○ быки - коровы\n"
+
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_games.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_games.json', 'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1195,7 +1261,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1206,7 +1272,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_y_n.json', 'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1216,7 +1282,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_b_m_r.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_b_m_r.json', 'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1228,7 +1294,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_stop.json','r',
+                                     keyboard=open('./keyboard/keyboard_stop.json','r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1239,7 +1305,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_stop.json','r',
+                                     keyboard=open('./keyboard/keyboard_stop.json','r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1250,7 +1316,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_start_notstart.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_start_notstart.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1261,7 +1327,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_stop.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1272,7 +1338,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_y_n.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1285,7 +1351,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_now_parts.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_now_parts.json', 'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1309,7 +1375,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_all_one.json','r',
+                                 keyboard=open('./keyboard/keyboard_all_one.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1320,7 +1386,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json','r',
+                                 keyboard=open('./keyboard/keyboard_stop.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1332,7 +1398,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                      encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1346,7 +1412,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json','r',
+                                 keyboard=open('./keyboard/keyboard_stop.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1360,7 +1426,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json','r',
+                                 keyboard=open('./keyboard/keyboard_stop.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1372,7 +1438,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_y_n.json','r',
+                                 keyboard=open('./keyboard/keyboard_y_n.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1383,7 +1449,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_y_n.json','r',
+                                 keyboard=open('./keyboard/keyboard_y_n.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
