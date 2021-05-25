@@ -88,7 +88,7 @@ def main():
                                      "✅ Карты\n" \
                                      "✅ Удача\n" \
                                      "Если Вы хотите очистить историю сообщений, напишите - ❌ ОЧИСТИТЬ ИСТОРИЮ ❌",
-                             keyboard=open('keyboard\keyboard_menu.json', 'r',
+                             keyboard=open('./keyboard/keyboard_menu.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(
                                  addition.data_doc_addition.attachment_doc_add['hi']),
