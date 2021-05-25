@@ -7,7 +7,7 @@ class City:
         self.city = city
 
         out = self.search(self.city)
-        print("Cities.search ", out)
+        # print("Cities.search ", out)
 
     def search(self, toponym):
         if toponym:

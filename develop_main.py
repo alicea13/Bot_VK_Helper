@@ -89,7 +89,7 @@ def main():
                 print(f"Новое сообщение: {event.obj.message['text']} от {event.obj.message['from_id']}")
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
-                                 message="Привет, я бот < имя >!\n" \
+                                 message="Привет, я бот ВК-помощник!\n" \
                                          "Вот мои навыки:\n"
                                          "✅ Игры\n" \
                                          "✅ Погода\n" \
