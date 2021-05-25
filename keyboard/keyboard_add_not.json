@@ -13,7 +13,7 @@
                 "type": "text",
                 "label": "Не добавлять"
             },
-          "color": "positive"
+          "color": "negative"
           }]
     ]
 }

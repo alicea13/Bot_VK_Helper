@@ -48,12 +48,8 @@ for let in list(data_words_addition.words_add.keys()):
 
 class WordsGame:
     def find_word(self, except_w={}, f_lett='', one=False, word=''):
-        print(except_w, f_lett, one, word)
         if except_w:
             words = [i[0] for i in list(cursor.execute(f'''SELECT word FROM {f_lett}''').fetchall())]
-            print(words)
-            # if one:
-            #     words.remove(word)
             if f_lett in except_w.keys():   # проверка назывались слова на эту букву
                 for w in except_w[f_lett]:   # проходим по словарю названых слов пользователя
                     if w in words:
@@ -68,16 +64,13 @@ class WordsGame:
             else:   # если посде удаления остались слова
                 word_out = random.choice(words)  # рандомно-выбранное слово
 
-            print(word_out)
-            print('ok')
         else:
             print(word)
             words = self.first_move(f_lett)
             if one and word in words:
                 words.remove(word)
-            print(words)
+
             word_out = random.choice(words)
-            print(word_out)
 
         if one:
             return False, open('./keyboard/keyboard_stop.json', 'r', encoding='UTF-8').read(), (word_out, f_lett)
@@ -89,15 +82,11 @@ class WordsGame:
     def first_move(self, first_l):
         if not first_l:
             first_l = random.choice('абвгдеёжзийклмнопрстуфхцчшщэюя')
-            print(first_l)
 
         words = [i[0] for i in list(cursor.execute(f'''SELECT word FROM {first_l}''').fetchall())]
-
-        print(len(words))
         return words
 
     def check_word(self, word, except_w, f_let=''):
-        print('95', word, except_w, f_let)
         if word[0] not in 'ъыь':
             # проверка есть ли слово в БД
             check = cursor.execute(f'''SELECT id FROM {word[0]} WHERE word = ?''', (word,)).fetchall()
@@ -132,14 +121,14 @@ class WordsGame:
     def add_word(self, word):
 
         words = [i[0] for i in list(cursor.execute(f'''SELECT word FROM {word[0]}''').fetchall())]
-        print(len(words))
+
         name = word[0]
         values = (len(words) + 1, word[0], word, False)
-        cursor.execute(f"""INSERT INTO {name}(id, first_letter, word, used)
-                                VALUES(?, ?, ?, ?);""", values)
-        conn.commit()
-        words = [i[0] for i in list(cursor.execute(f'''SELECT word FROM {word[0]}''').fetchall())]
-        print(words)
+        if word not in words:
+            cursor.execute(f"""INSERT INTO {name}(id, first_letter, word, used)
+                                    VALUES(?, ?, ?, ?);""", values)
+            conn.commit()
+        return f'Слов на букву 💡{name}💡: {len(words)}'
 
 
     def delete_word(self, word):
@@ -149,4 +138,3 @@ class WordsGame:
         cursor.execute(f"""DELETE FROM {t_name} WHERE word = ?""", (word,))
         conn.commit()
         conn.close()
-        print(words)
