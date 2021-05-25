@@ -15,7 +15,7 @@ class City:
             geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
 
             geocoder_params = {
-                "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
+                "apikey": "a954d541-8a0c-4fef-9924-6be4d4bf3b12",
                 "geocode": toponym,
                 "format": "json"}
 
