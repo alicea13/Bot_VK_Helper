@@ -61,7 +61,7 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_start.json', 'r',
+                             keyboard=open('./keyboard/keyboard_start.json', 'r',
                                            encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -113,7 +113,7 @@ def main():
                                      "○ Угадай число\n"
                                      "○ Слова\n"
                                      "○ Быки - коровы\n",
-                             keyboard=open('keyboard\keyboard_games.json', 'r',
+                             keyboard=open('./keyboard/keyboard_games.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(
                                  addition.data_doc_addition.attachment_doc_add[
@@ -140,7 +140,7 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                             keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(
                                  addition.data_doc_addition.attachment_doc_add['number']),
@@ -164,7 +164,7 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_y_n.json', 'r', encoding='UTF-8').read(),
+                             keyboard=open('./keyboard/keyboard_y_n.json', 'r', encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
         elif event.type == VkBotEventType.MESSAGE_NEW and \
@@ -178,7 +178,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_y_n.json', 'r', encoding='UTF-8').read(),
+                                 keyboard=open('./keyboard/keyboard_y_n.json', 'r', encoding='UTF-8').read(),
                                  attachment=random.choice(
                                      addition.data_doc_addition.attachment_doc_add['time']),
                                  random_id=random.randint(0, 2 ** 64))
@@ -220,7 +220,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_start_notstart.json',
+                                 keyboard=open('./keyboard/keyboard_start_notstart.json',
                                                'r', encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -245,7 +245,7 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_stop.json',
+                             keyboard=open('./keyboard/keyboard_stop.json',
                                            'r', encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -267,7 +267,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_stop.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -279,14 +279,14 @@ def main():
                 if keyboard:
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_start_notstart.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_start_notstart.json', 'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
                 else:
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_stop.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -315,7 +315,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_stop.json', 'r',
                                                encoding='UTF-8').read(),
                                  attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
                                          'planet']),
@@ -344,7 +344,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_y_n.json', 'r',
                                          encoding='UTF-8').read(),
                                      attachment=random.choice(addition.data_doc_addition.attachment_doc_add['city']),
                                      random_id=random.randint(0, 2 ** 64))
@@ -374,7 +374,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_now_parts.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_now_parts.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
                 else:
@@ -406,8 +406,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open(
-                                         'keyboard\keyboard_menu.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_menu.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -461,7 +460,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_menu.json',
+                                 keyboard=open('./keyboard/keyboard_menu.json',
                                                'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
@@ -525,8 +524,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open(
-                                         'keyboard\keyboard_menu.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_menu.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -556,7 +554,7 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                             keyboard=open('./keyboard/keyboard_y_n.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
                                      'words']),
@@ -576,7 +574,7 @@ def main():
                        'одну букву или на все буквы алфавита?'
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_all_one.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_all_one.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
             else:
@@ -595,7 +593,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_menu.json','r',
+                                 keyboard=open('./keyboard/keyboard_menu.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -626,7 +624,7 @@ def main():
                 text = 'Кто начинает - Я или ВЫ ?'
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                      encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -643,8 +641,7 @@ def main():
             text = 'Кто начинает - Я или ВЫ ?'
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open(
-                                 'keyboard\keyboard_i_y_stop.json', 'r',
+                             keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                  encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -668,7 +665,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_stop.json', 'r',
                                      encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
             else:
@@ -762,7 +759,7 @@ def main():
 
                         vk.messages.send(user_id=event.obj.message['from_id'],
                                          message=text,
-                                         keyboard=open('keyboard\keyboard_stop.json','r',
+                                         keyboard=open('./keyboard/keyboard_stop.json','r',
                                              encoding='UTF-8').read(),
                                          random_id=random.randint(0, 2 ** 64))
                     else:
@@ -829,7 +826,7 @@ def main():
 
                                 vk.messages.send(user_id=event.obj.message['from_id'],
                                                  message=text,
-                                                 keyboard=open('keyboard\keyboard_add_stop.json', 'r',
+                                                 keyboard=open('./keyboard/keyboard_add_stop.json', 'r',
                                                      encoding='UTF-8').read(),
                                                  random_id=random.randint(0, 2 ** 64))
 
@@ -850,7 +847,7 @@ def main():
                 text = "⚪ Кто загадывает число: Я или ВЫ?"
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                              encoding='UTF-8').read(),
                                  attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
                                                  'number']),
@@ -873,7 +870,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                                encoding='UTF-8').read(),
                                  attachment=random.choice(addition.data_doc_addition.attachment_doc_add[
                                                               'number']),
@@ -907,7 +904,7 @@ def main():
                        'одну букву или на все буквы алфавита?'
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_all_one.json','r',
+                                 keyboard=open('./keyboard/keyboard_all_one.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -960,7 +957,7 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_menu.json', 'r',
+                             keyboard=open('./keyboard/keyboard_menu.json', 'r',
                                            encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -1027,7 +1024,7 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_menu.json', 'r',
+                             keyboard=open('./keyboard/keyboard_menu.json', 'r',
                                            encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
             print(id_d[event.obj.message['from_id']])
@@ -1069,7 +1066,7 @@ def main():
                     wait_answ = True
                     vk.messages.send(peer_id='2000000001',
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_add_not.json','r',
+                                     keyboard=open('./keyboard/keyboard_add_not.json','r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1101,7 +1098,7 @@ def main():
             wait_answ = True
             vk.messages.send(peer_id='2000000001',
                              message=text,
-                             keyboard=open('keyboard\keyboard_add_not.json','r',
+                             keyboard=open('./keyboard/keyboard_add_not.json','r',
                                            encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
@@ -1176,7 +1173,7 @@ def main():
                 wait_answ = True
                 vk.messages.send(peer_id='2000000001',
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_add_not.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_add_not.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
             else:
@@ -1185,7 +1182,7 @@ def main():
                 wait_answ = False
                 vk.messages.send(peer_id='2000000001',
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_add_not.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_add_not.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1196,7 +1193,7 @@ def main():
 
                 vk.messages.send(peer_id='2000000001',
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_add_not.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_add_not.json', 'r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
             if event.type == VkBotEventType.MESSAGE_NEW and \
@@ -1209,7 +1206,7 @@ def main():
 
                 vk.messages.send(peer_id='2000000001',
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_add_not.json','r',
+                                 keyboard=open('./keyboard/keyboard_add_not.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1220,7 +1217,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_start.json',
+                                     keyboard=open('./keyboard/keyboard_start.json',
                                                    'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
@@ -1236,7 +1233,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_menu.json',
+                                     keyboard=open('./keyboard/keyboard_menu.json',
                                                    'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
@@ -1252,7 +1249,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_games.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_games.json', 'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1264,7 +1261,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1275,7 +1272,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_y_n.json', 'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1285,7 +1282,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_b_m_r.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_b_m_r.json', 'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1297,7 +1294,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_stop.json','r',
+                                     keyboard=open('./keyboard/keyboard_stop.json','r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1308,7 +1305,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_stop.json','r',
+                                     keyboard=open('./keyboard/keyboard_stop.json','r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1319,7 +1316,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_start_notstart.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_start_notstart.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1330,7 +1327,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_stop.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_stop.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1341,7 +1338,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_y_n.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_y_n.json', 'r',
                                          encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1354,7 +1351,7 @@ def main():
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
-                                     keyboard=open('keyboard\keyboard_now_parts.json', 'r',
+                                     keyboard=open('./keyboard/keyboard_now_parts.json', 'r',
                                                    encoding='UTF-8').read(),
                                      random_id=random.randint(0, 2 ** 64))
 
@@ -1378,7 +1375,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_all_one.json','r',
+                                 keyboard=open('./keyboard/keyboard_all_one.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1389,7 +1386,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json','r',
+                                 keyboard=open('./keyboard/keyboard_stop.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1401,7 +1398,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_i_y_stop.json', 'r',
+                                 keyboard=open('./keyboard/keyboard_i_y_stop.json', 'r',
                                      encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1415,7 +1412,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json','r',
+                                 keyboard=open('./keyboard/keyboard_stop.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1429,7 +1426,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_stop.json','r',
+                                 keyboard=open('./keyboard/keyboard_stop.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1441,7 +1438,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_y_n.json','r',
+                                 keyboard=open('./keyboard/keyboard_y_n.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 
@@ -1452,7 +1449,7 @@ def main():
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
-                                 keyboard=open('keyboard\keyboard_y_n.json','r',
+                                 keyboard=open('./keyboard/keyboard_y_n.json','r',
                                                encoding='UTF-8').read(),
                                  random_id=random.randint(0, 2 ** 64))
 

@@ -25,32 +25,32 @@ class NumberGamePolz:
 
             if self.minim < self.maxim - 1:
                 self.help6 = True
-                return self.help6, False, open('keyboard\keyboard_b_m_r.json', 'r',
+                return self.help6, False, open('./keyboard/keyboard_b_m_r.json', 'r',
                                                encoding='UTF-8').read(),\
                        f"Число {self.numbers[self.middle]} БОЛЬШЕ, МЕНЬШЕ " \
                        f"или РАВНО вашему числу?"
             else:
                 self.help6 = False
-                return self.help6, True, open('keyboard\keyboard_start_notstart.json', 'r', encoding='UTF-8').read(),\
+                return self.help6, True, open('./keyboard/keyboard_start_notstart.json', 'r', encoding='UTF-8').read(),\
                        "Должно быть, Вы ошиблись. Такого числа нет в " \
                        "диапазоне от 1 до 1000\n" \
                        "Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ"
 
         elif answ == "равно":
             self.help6 = False
-            return self.help6, True, open('keyboard\keyboard_start_notstart.json', 'r', encoding='UTF-8').read(),\
+            return self.help6, True, open('./keyboard/keyboard_start_notstart.json', 'r', encoding='UTF-8').read(),\
                    f"Ура! У меня получилось !\n " \
                    f"Ваше число : {self.numbers[self.middle]}\n" \
                    "Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ"
         self.help6 = False
-        return self.help6, True, open('keyboard\keyboard_start_notstart.json', 'r', encoding='UTF-8').read(), \
+        return self.help6, True, open('./keyboard/keyboard_start_notstart.json', 'r', encoding='UTF-8').read(), \
                "Должно быть, Вы ошиблись. Такого числа нет в " \
                "диапазоне от 1 до 1000\n" \
                "Напишите мне -  ПЕРЕЗАПУСТИТЬ игру / НЕ ПЕРЕЗАПУСКАТЬ"
 
     def number_game_st(self):
         return f"Число {self.numbers[self.middle]} БОЛЬШЕ, МЕНЬШЕ " \
-               f"или РАВНО вашему числу?", open('keyboard\keyboard_b_m_r.json', 'r', encoding='UTF-8').read()
+               f"или РАВНО вашему числу?", open('./keyboard/keyboard_b_m_r.json', 'r', encoding='UTF-8').read()
 
 
 class NumberGameII:

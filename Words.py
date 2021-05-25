@@ -60,7 +60,7 @@ class WordsGame:
                         words.remove(w)
 
             if len(words) == 1 and words[0] == word:
-                return True, open('keyboard\keyboard_start_notstart.json', 'r',
+                return True, open('./keyboard/keyboard_start_notstart.json', 'r',
                                   encoding='UTF-8').read(), \
                        f"Я больше не знаю слов на букву {f_lett}\n"\
                            "Вы выиграли\n"\
@@ -80,11 +80,11 @@ class WordsGame:
             print(word_out)
 
         if one:
-            return False, open('keyboard\keyboard_stop.json', 'r', encoding='UTF-8').read(), (word_out, f_lett)
+            return False, open('./keyboard/keyboard_stop.json', 'r', encoding='UTF-8').read(), (word_out, f_lett)
         else:
             if word_out[-1] in 'ъьы':
-                return False, open('keyboard\keyboard_stop.json', 'r', encoding='UTF-8').read(), (word_out, word_out[-2])
-            return False, open('keyboard\keyboard_stop.json', 'r', encoding='UTF-8').read(), (word_out, word_out[-1])
+                return False, open('./keyboard/keyboard_stop.json', 'r', encoding='UTF-8').read(), (word_out, word_out[-2])
+            return False, open('./keyboard/keyboard_stop.json', 'r', encoding='UTF-8').read(), (word_out, word_out[-1])
 
     def first_move(self, first_l):
         if not first_l:
@@ -124,11 +124,11 @@ class WordsGame:
                    return self.find_word(f_lett=word[-1], )'''
 
             else:
-                return False, open('keyboard\keyboard_stop.json', 'r', encoding='UTF-8').read(), \
+                return False, open('./keyboard/keyboard_stop.json', 'r', encoding='UTF-8').read(), \
                        "Введенное Вами слово мне не знакомо.\n" \
                        " Попробуйте ввести другое"
         else:
-            return False, open('keyboard\keyboard_stop.json', 'r', encoding='UTF-8').read(), \
+            return False, open('./keyboard/keyboard_stop.json', 'r', encoding='UTF-8').read(), \
                        "Введенное Вами слово мне не знакомо.\n" \
                        " Попробуйте ввести другое"
 
