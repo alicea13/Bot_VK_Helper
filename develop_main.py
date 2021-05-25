@@ -85,15 +85,14 @@ def main():
                                      "✅ Игры\n" \
                                      "✅ Погода\n" \
                                      "✅ Время\n" \
-                                     "✅ Карты\n" \
-                                     "✅ Удача\n" \
+                                     # "✅ Карты\n" \
+                                     # "✅ Удача\n" \
                                      "Если Вы хотите очистить историю сообщений, напишите - ❌ ОЧИСТИТЬ ИСТОРИЮ ❌",
                              keyboard=open('./keyboard/keyboard_menu.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(
                                  addition.data_doc_addition.attachment_doc_add['hi']),
                              random_id=random.randint(0, 2 ** 64))
-
 
         elif event.type == VkBotEventType.MESSAGE_NEW and 'игр' in \
             event.obj.message['text'].lower() and id_d[event.obj.message['from_id']]['flag'] and \
@@ -109,10 +108,10 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message="Можем поиграть в:\n"
-                                     "○ Камень-ножницы-бумага\n"
+                                     # "○ Камень-ножницы-бумага\n"
                                      "○ Угадай число\n"
-                                     "○ Слова\n"
-                                     "○ Быки - коровы\n",
+                                     "○ Слова\n",
+                                     # "○ Быки - коровы\n",
                              keyboard=open('./keyboard/keyboard_games.json', 'r',
                                            encoding='UTF-8').read(),
                              attachment=random.choice(
@@ -401,8 +400,8 @@ def main():
                            "✅ Игры\n" \
                            "✅ Погода\n" \
                            "✅ Время\n" \
-                           "✅ Карты\n" \
-                           "✅ Удача\n"
+                           # "✅ Карты\n" \
+                           # "✅ Удача\n"
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
@@ -455,8 +454,8 @@ def main():
                        "✅ Игры\n" \
                        "✅ Погода\n" \
                        "✅ Время\n" \
-                       "✅ Карты\n" \
-                       "✅ Удача\n"
+                       # "✅ Карты\n" \
+                       # "✅ Удача\n"
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
@@ -519,8 +518,8 @@ def main():
                            "✅ Игры\n" \
                            "✅ Погода\n" \
                            "✅ Время\n" \
-                           "✅ Карты\n" \
-                           "✅ Удача\n"
+                           # "✅ Карты\n" \
+                           # "✅ Удача\n"
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
@@ -588,8 +587,8 @@ def main():
                        "✅ Игры\n" \
                        "✅ Погода\n" \
                        "✅ Время\n" \
-                       "✅ Карты\n" \
-                       "✅ Удача\n"
+                       # "✅ Карты\n" \
+                       # "✅ Удача\n"
 
                 vk.messages.send(user_id=event.obj.message['from_id'],
                                  message=text,
@@ -952,8 +951,8 @@ def main():
                    "✅ Игры\n" \
                    "✅ Погода\n" \
                    "✅ Время\n" \
-                   "✅ Карты\n" \
-                   "✅ Удача\n"
+                   # "✅ Карты\n" \
+                   # "✅ Удача\n"
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
@@ -1019,8 +1018,8 @@ def main():
                    "✅ Игры\n" \
                    "✅ Погода\n" \
                    "✅ Время\n" \
-                   "✅ Карты\n" \
-                   "✅ Удача\n"
+                   # "✅ Карты\n" \
+                   # "✅ Удача\n"
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
@@ -1084,7 +1083,6 @@ def main():
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
                              random_id=random.randint(0, 2 ** 64))
-
 
         elif words_add_d and not wait_answ:
             print('спрашиваю')
@@ -1228,8 +1226,8 @@ def main():
                                    "✅ Игры\n" \
                                    "✅ Погода\n" \
                                    "✅ Время\n" \
-                                   "✅ Карты\n" \
-                                   "✅ Удача\n"
+                                   # "✅ Карты\n" \
+                                   # "✅ Удача\n"
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
@@ -1242,10 +1240,10 @@ def main():
                         id_d[event.obj.message['from_id']]['help'][2]:   # запрос на выбор одной из доступных игр
 
                     text = "Выберите игру:\n" \
-                           "○ Камень-ножницы-бумага\n" \
                            "○ Угадай число\n" \
-                           "○ Слова\n" \
-                           "○ быки - коровы\n"
+                           "○ Слова\n"
+                           # "○ быки - коровы\n"
+                           # "○ Камень-ножницы-бумага\n" \
 
                     vk.messages.send(user_id=event.obj.message['from_id'],
                                      message=text,
