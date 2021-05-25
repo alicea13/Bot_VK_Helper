@@ -61,7 +61,7 @@ def main():
 
             vk.messages.send(user_id=event.obj.message['from_id'],
                              message=text,
-                             keyboard=open('keyboard\keyboard_start.json', 'r',
+                             keyboard=open('.\keyboard\keyboard_start.json', 'r',
                                            encoding='UTF-8').read(),
                              random_id=random.randint(0, 2 ** 64))
 
