@@ -22,7 +22,6 @@ class City:
             response = requests.get(geocoder_api_server, params=geocoder_params)
 
             json_response = response.json()
-            print(json_response['response']["GeoObjectCollection"]["metaDataProperty"]["GeocoderResponseMetaData"]['found'] == '0')
             if json_response['response']["GeoObjectCollection"]["metaDataProperty"]["GeocoderResponseMetaData"]['found'] != '0':
                 kind_area = json_response["response"]["GeoObjectCollection"][
                     "featureMember"][0]["GeoObject"]["metaDataProperty"][
@@ -58,7 +57,7 @@ class City:
 
 # draft
 
-def request(coord_x, coord_y, toponym, delta, user_id, zoom, l_param):
+'''def request(coord_x, coord_y, toponym, delta, user_id, zoom, l_param):
     # map_request = "http://static-maps.yandex.ru/1.x/?"
     map_request = "https://static-maps.yandex.ru/1.x/"
 
@@ -88,3 +87,4 @@ def request(coord_x, coord_y, toponym, delta, user_id, zoom, l_param):
     with open(filename, "wb") as file:
         file.write(response.content)
     return map_file
+'''
