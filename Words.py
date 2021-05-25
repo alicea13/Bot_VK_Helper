@@ -1,12 +1,12 @@
 # import requests, random
 import sqlite3, random
-# from addition import data_words_addition
+from addition import data_words_addition
 
 
 conn = sqlite3.connect('VK_words_alphabet.db')
 cursor = conn.cursor()
 
-# cursor.execute('pragma encoding=UTF8')
+cursor.execute('pragma encoding=UTF8')
 
 #   добавления букв алфавита в таблицу alphabet
 '''
@@ -119,9 +119,6 @@ class WordsGame:
                         else:
                             return self.find_word({}, word[-1], f_let, word)
 
-                '''if word[-1] in 'ъьы' and except_w:
-                        return self.find_word(except_w, word[-2])
-                   return self.find_word(f_lett=word[-1], )'''
 
             else:
                 return False, open('./keyboard/keyboard_stop.json', 'r', encoding='UTF-8').read(), \
@@ -153,4 +150,3 @@ class WordsGame:
         conn.commit()
         conn.close()
         print(words)
-
