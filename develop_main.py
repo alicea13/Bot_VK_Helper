@@ -26,7 +26,8 @@ def main():
 
         vk = vk_session.get_api()
         if event.type == VkBotEventType.MESSAGE_NEW and \
-                event.obj.message['from_id'] not in id_d.keys():
+                (event.obj.message['from_id'] not in id_d.keys() or \
+                        event.obj.message['text'].lower() == 'очистить историю'):
             id_d[event.obj.message['from_id']] = {'flag': False,
                                                   'flag_play': False,
                                                   'number_game': False,
