@@ -130,7 +130,6 @@ class WordsGame:
             conn.commit()
         return f'Слов на букву 💡{name}💡: {len(words)}'
 
-
     def delete_word(self, word):
         words = [i[0] for i in list(
             cursor.execute(f'''SELECT word FROM {word[0]}''').fetchall())]
@@ -138,3 +137,12 @@ class WordsGame:
         cursor.execute(f"""DELETE FROM {t_name} WHERE word = ?""", (word,))
         conn.commit()
         conn.close()
+
+    def show_words(self, let):
+        words = [f"💡{i[0]}💡" for i in list(
+            cursor.execute(f'''SELECT word FROM {let}''').fetchall())]
+        print('\n'.join(words))
+        return '\n'.join(words)
+
+
+WordsGame().show_words('а')
